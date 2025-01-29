@@ -1,0 +1,35 @@
+name: "Code scanning"
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  schedule:
+    - cron: "26 14 * * 2"
+  workflow_call:
+    inputs:
+      gosec-config:
+        description: "Path to gosec configuration file (default: .github/config/gosec-config.json)"
+        required: true
+        default: ".github/config/gosec-config.json"
+        type: string
+
+jobs:
+  gosec:
+    name: Go Security Checker
+    runs-on: large_runner
+    permissions:
+      # Required to upload SARIF files
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@e0cca6fe95306b7e7790d6f1bf6a7bec6d622459 # v2.22.0
+        with:
+          args: "-no-fail -fmt sarif -out results.sarif -conf ${{ inputs.gosec-config }} ./..."
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@17a820bf2e43b47be2c72b39cc905417bc1ab6d0 # v3.28.6
+        with:
+          sarif_file: results.sarif
