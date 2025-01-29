@@ -1,12 +1,6 @@
 name: "Code scanning"
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-  schedule:
-    - cron: "26 14 * * 2"
   workflow_call:
     inputs:
       gosec-args:
@@ -26,15 +20,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run Gosec Security Scanner
-        if: inputs.gosec-args
         uses: securego/gosec@e0cca6fe95306b7e7790d6f1bf6a7bec6d622459 # v2.22.0
         with:
           args: "${{ inputs.gosec-args }}"
-      - name: Run Gosec Security Scanner
-        if: inputs.gosec-args == ''
-        uses: securego/gosec@e0cca6fe95306b7e7790d6f1bf6a7bec6d622459 # v2.22.0
-        with:
-          args: "-no-fail -show-ignored -fmt sarif -out results.sarif ./..."
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@17a820bf2e43b47be2c72b39cc905417bc1ab6d0 # v3.28.6
         with:
