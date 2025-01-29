@@ -8,6 +8,9 @@ on:
         default: "-no-fail -show-ignored -fmt sarif -out results.sarif ./..."
         type: string
 
+permissions:
+  contents: read # for actions/checkout to fetch code
+
 jobs:
   gosec:
     name: Go Security Checker
