@@ -31,7 +31,7 @@ jobs:
         with:
           args: "${{ inputs.gosec-args }}"
       - name: Run Gosec Security Scanner
-        if: ! inputs.gosec-args
+        if: inputs.gosec-args == ''
         uses: securego/gosec@e0cca6fe95306b7e7790d6f1bf6a7bec6d622459 # v2.22.0
         with:
           args: "-no-fail -show-ignored -fmt sarif -out results.sarif ./..."
