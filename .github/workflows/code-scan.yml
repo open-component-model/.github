@@ -9,10 +9,10 @@ on:
     - cron: "26 14 * * 2"
   workflow_call:
     inputs:
-      gosec-config:
-        description: "Path to gosec configuration file (default: .github/config/gosec-config.json)"
+      gosec-args:
+        description: "Arguments passed to 'gosec' - see: https://github.com/securego/gosec/blob/HEAD/README.md#usage"
         required: true
-        default: ".github/config/gosec-config.json"
+        default: "-no-fail -show-ignored -fmt sarif -out results.sarif ./..."
         type: string
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
       - name: Run Gosec Security Scanner
         uses: securego/gosec@e0cca6fe95306b7e7790d6f1bf6a7bec6d622459 # v2.22.0
         with:
-          args: "-no-fail -fmt sarif -out results.sarif -conf ${{ inputs.gosec-config }} ./..."
+          args: ${{ inputs.gosec-args }}
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@17a820bf2e43b47be2c72b39cc905417bc1ab6d0 # v3.28.6
         with:
