@@ -19,20 +19,14 @@ jobs:
       matrix:
         repo:
           - demo-secure-delivery  
-          - git-controller        
           - homebrew-tap          
           - internal-processes    
-          - ocm                   
           - ocm-action            
-          - ocm-controller        
-          - ocm-e2e-framework     
           - ocm-examples          
           - ocm-integrationtest   
-          - ocm-k8s-toolkit       
           - ocm-project           
           - ocm-setup-action      
           - ocm-spec              
-          - ocm-website           
           - pkg                   
           - pocm                  
           - replication-controller
@@ -61,7 +55,7 @@ jobs:
 
       - name: Copy file
         run: |
-          mkdir -p $(dirname "${{ env.FILE_TO_ADD }}")
+          mkdir -p remote/${{ matrix.repo }}/$(dirname "${{ env.FILE_TO_ADD }}")
           cp ${{ env.FILE_TO_ADD }} remote/${{ matrix.repo }}/${{ env.FILE_TO_ADD }}
 
       - name: Prepare branch
@@ -89,6 +83,6 @@ jobs:
       - name: Create PR
         run: |
           cd remote/${{ matrix.repo }}
-          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --project "OCM Backlog Board" --label "${{ env.LABEL }}"
+          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --project "OCM Backlog Board" --label "${{ env.LABEL }}" --assignee @me
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
