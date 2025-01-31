@@ -54,6 +54,7 @@ jobs:
 
       - name: Create sigened commit
         run: |
+          QUERY=$(cat .github/api/createSignedCommit.gql)
           cd remote/${{ matrix.repo }}
           gh api graphql \
           -F REPO=${{ github.repository_owner }}/${{ matrix.repo }} \
@@ -62,7 +63,7 @@ jobs:
           -F MESSAGE="${{ env.PR_TITLE }}" \
           -F files[][path]="${{ env.FILE_TO_ADD }}" \
           -F files[][contents]=$(base64 -w0 ${{ env.FILE_TO_ADD }}) \
-          -F 'query=@.github/api/createSignedCommit.gql'
+          -F 'query=$QUERY'
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
 
