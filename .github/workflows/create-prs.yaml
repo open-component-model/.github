@@ -60,7 +60,9 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
 
       - name: Copy file
-        run: cp ${{ env.FILE_TO_ADD }} remote/${{ matrix.repo }}/${{ env.FILE_TO_ADD }}
+        run: |
+          mkdir -p $(dirname "${{ env.FILE_TO_ADD }}")
+          cp ${{ env.FILE_TO_ADD }} remote/${{ matrix.repo }}/${{ env.FILE_TO_ADD }}
 
       - name: Prepare branch
         run: |
