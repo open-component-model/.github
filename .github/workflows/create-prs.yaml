@@ -18,7 +18,28 @@ jobs:
     strategy:
       matrix:
         repo:
-          - ocm-cicd-playground
+          - demo-secure-delivery  
+          - git-controller        
+          - homebrew-tap          
+          - internal-processes    
+          - ocm                   
+          - ocm-action            
+          - ocm-controller        
+          - ocm-e2e-framework     
+          - ocm-examples          
+          - ocm-integrationtest   
+          - ocm-k8s-toolkit       
+          - ocm-project           
+          - ocm-setup-action      
+          - ocm-spec              
+          - ocm-website           
+          - pkg                   
+          - pocm                  
+          - replication-controller
+          - repository-template   
+          - secretstore           
+          - service-model         
+          - signing-server        
     permissions:
       contents: write
       pull-requests: write
