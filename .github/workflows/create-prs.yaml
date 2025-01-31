@@ -15,7 +15,9 @@ jobs:
   create_prs:
     name: Create Pull Requests
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
+      fail-fast: false
       matrix:
         repo:
           - demo-secure-delivery  
@@ -83,6 +85,6 @@ jobs:
       - name: Create PR
         run: |
           cd remote/${{ matrix.repo }}
-          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --project "OCM Backlog Board" --label "${{ env.LABEL }}" --assignee @me
+          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --project "OCM Backlog Board" --label "${{ env.LABEL }}" --assignee ${{ github.actor }}
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
