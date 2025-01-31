@@ -1,0 +1,74 @@
+# This workflow will iterate over a set of repositories and add/update one single file in each of them. Then it will create a pull request for each repository.
+name: Create Pull Requests
+
+on:
+  workflow_dispatch:
+
+env:
+  FILE_TO_ADD: .github/workflows/milestone.yaml
+  BRANCH: chore/auto-created-pr/${{ github.run_id }}-${{ github.run_number }}
+  PR_TITLE: "chore: add set milestone action"
+  PR_BODY: "See [#401 - Automatically set milestone at issues when closed](https://github.com/open-component-model/ocm-project/issues/401) for more information."
+  LABEL: component/github-actions
+
+jobs:
+  create_prs:
+    name: Create Pull Requests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo:
+          - ocm-cicd-playground
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.OCMBOT_APP_ID }}
+          private_key: ${{ secrets.OCMBOT_PRIV_KEY }}
+      - name: Checkout this
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: ${{ env.FILE_TO_ADD }}
+          sparse-checkout-cone-mode: false
+      - name: Checkout ${{ matrix.repo }}
+        uses: actions/checkout@v4
+        with:
+          path: remote/${{ matrix.repo }}
+          repository: ${{ github.repository_owner }}/${{ matrix.repo }}
+          token: ${{ steps.generate_token.outputs.token }}
+
+      - name: Copy file
+        run: cp ${{ env.FILE_TO_ADD }} remote/${{ matrix.repo }}/${{ env.FILE_TO_ADD }}
+
+      - name: Prepare branch
+        run: |
+          cd remote/${{ matrix.repo }}
+          git checkout -b ${{ env.BRANCH }}
+          git push origin ${{ env.BRANCH }}
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - name: Create sigened commit
+        run: |
+          cd remote/${{ matrix.repo }}
+          gh api graphql \
+          -F REPO=${{ github.repository_owner }}/${{ matrix.repo }} \
+          -F BRANCH=${{ env.BRANCH }} \
+          -F SHA=$(git rev-parse HEAD) \
+          -F MESSAGE="${{ env.PR_TITLE }}" \
+          -F files[][path]="${{ env.FILE_TO_ADD }}" \
+          -F files[][contents]=$(base64 -w0 ${{ env.FILE_TO_ADD }}) \
+          -F 'query=@.github/api/createSignedCommit.gql'
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - name: Create PR
+        run: |
+          cd remote/${{ matrix.repo }}
+          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --project "OCM Backlog Board" --label "${{ env.LABEL }}"
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
