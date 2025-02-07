@@ -39,7 +39,6 @@ jobs:
         - pocm
         - replication-controller
         - repository-template
-        - secretstore
         - service-model
         - signing-server
     permissions:
