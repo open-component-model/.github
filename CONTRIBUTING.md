@@ -32,7 +32,7 @@ If your `user.name` and `user.email` are configured in your Git config, you can 
 
 Before opening a new issue or submitting a Pull Request, make sure to search through the [docs](https://github.com/open-component-model/ocm-spec), open and closed issues, open and merged Pull Requests, and the [Discussions](https://github.com/open-component-model/ocm/discussions) board to check whether your question has been raised or answered already.
 
-Please open an issue in any of the repositories in the `open-component-model` organisation if you wish to [request a new feature](https://github.com/open-component-model/ocm/issues/new?assignees=&labels=kind%2Fenhancement&template=enhancement_request.md) or [report a bug](https://github.com/open-component-model/ocm/issues/new?assignees=&labels=kind%2Fbug&template=bug_report.md).
+Please open an issue in any of the repositories in the `open-component-model` organization if you wish to [request a new feature](https://github.com/open-component-model/ocm/issues/new?assignees=&labels=kind%2Fenhancement&template=enhancement_request.md) or [report a bug](https://github.com/open-component-model/ocm/issues/new?assignees=&labels=kind%2Fbug&template=bug_report.md).
 
 If you wish to propose or discuss a more involved feature or change to any of the OCM projects, you could start a new thread in the [`ocm` Discussion Board](https://github.com/open-component-model/ocm/discussions). For example, this could be helpful if you wish to vet an idea before writing a feature request. It is a space to discuss in public with maintainers, contributors, users, and other interested parties. After reaching some form of consensus, the proposed changes can go through the [pull request process](#submitting-pull-requests) where implementation details are reviewed, approved, or rejected by maintainers.
 
@@ -51,7 +51,7 @@ We welcome all types of contributions, including:
 - Reviews
 - [Board discussions](https://github.com/open-component-model/ocm/discussions)
 
-You may find it helpful to start a new thread in the [`ocm` Discussion Board](https://github.com/open-component-model/ocm/discussions) for questions, help requests, feature requests, or any other type of discussion about OCM. A maintaine will reach out to you as soon as possible.
+You may find it helpful to start a new thread in the [`ocm` Discussion Board](https://github.com/open-component-model/ocm/discussions) for questions, help requests, feature requests, or any other type of discussion about OCM. A maintainer will reach out to you as soon as possible.
 
 ### Find an Issue
 
@@ -70,9 +70,9 @@ Ready to contribute? Read and follow the sections below to get your contribution
 
 ### Licensing and Copyright information on file level
 
-In general all files of the project are created under Apache 2.0 license. The project uses the [REUSE process and tooling](https://reuse.software) that supports maintaining licensing information centrally in a `.reuse/dep5 config` file on repository level. This means that in general there SHOULD NOT be any license and copyright specifiy SPDX headers on file level. Only in cases where content is copied from sources that use a different license and already use headers like
+In general all files of the project are created under Apache 2.0 license. The project uses the [REUSE process and tooling](https://reuse.software) that supports maintaining licensing information centrally in the `REUSE.toml` file on repository level. This means that in general there SHOULD NOT be any license and copyright specify SPDX headers on file level. Only in cases where content is copied from sources that use a different license and already use headers like
 
-```
+```golang
 // SPDX-FileCopyrightText: Copyright 2010 The Go Authors. All rights reserved.
 //
 // SPDX-License-Identifier: BSD-3-Clause
@@ -80,13 +80,13 @@ In general all files of the project are created under Apache 2.0 license. The pr
 
 the headers of the source file should be kept and eventually aggregated with the Apache 2.0 license. Please check the [REUSE FAQ](https://reuse.software/faq/#multi-licensing) for details.
 
-Such files should be explicitly added as deviating from the `.reuse/dep5` config file using the `Files-Excluded` field. Excluding the file `/pkg/foo.go` and `pkg/bar.go` from the general rule to add the Apache 2.0 license to all files, would look like this:
+Such files should be explicitly added as deviating from the `REUSE.toml` config file using the `Files-Excluded` field. Excluding the file `/pkg/foo.go` and `pkg/bar.go` from the general rule to add the Apache 2.0 license to all files, would look like this:
 
 ```bash
 Files: **
-Copyright: 2022 SAP SE or an SAP affiliate company and Open Component Model contributors
+Copyright: 2025 SAP SE or an SAP affiliate company and Open Component Model contributors
 License: Apache-2.0
-Files-Excluded: /pkg/foo.go pkg/bar.go 
+Files-Excluded: /pkg/foo.go pkg/bar.go
 ```
 
 ### Pull Request Checklist
@@ -99,7 +99,7 @@ Files-Excluded: /pkg/foo.go pkg/bar.go
 - Update documentation (either in the [docs](https://github.com/open-component-model/ocm-spec) or README) that cover your changes.
 - Add unit tests and integration tests to cover your changes.
 - Ensure that the linter and all unit and integration tests are successful.
-- **Bonnus**: Backfill tests/documentation to make the world a better place.
+- **Bonus**: Backfill tests/documentation to make the world a better place.
 
 ### Pull Request Process
 
@@ -108,7 +108,7 @@ Files-Excluded: /pkg/foo.go pkg/bar.go
 3. **Assign reviews.** A maintainer will be assigned to review the changes in the PR.
 4. **Review.** At least 2 maintainers will review the PR. Checkout the [style guidelines](#style-guidelines) section for some things reviewers will look for. Reviewers are expected to add comments to the code changes introduced in the PR.
 5. **Address comments.** The PR owner should address the reviewers' comments by answering questions or making changes to the code. Once changes are applied, the PR owner should let the reviewer know, for example, by replying to the comments with `Done` and requesting another review from the reviewer. If the reviewer approves of the answer and/or changes, they can resolve the comment. Otherwise, they will follow-up with a new comment.
-6. **Approve/Merge.** Once all comments are resolved, a PR must be approved by at least two reviewers who are maintainers of the code. After that, the PR ownder can merge the PR. If the PR was opened by a community contributor, they should wait for a maintainer to merge the PR.
+6. **Approve/Merge.** Once all comments are resolved, a PR must be approved by at least two reviewers who are maintainers of the code. After that, the PR owner can merge the PR. If the PR was opened by a community contributor, they should wait for a maintainer to merge the PR.
 
 ### Style Guidelines
 

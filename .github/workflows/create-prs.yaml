@@ -8,7 +8,7 @@ env:
   FILE_TO_ADD: .github/workflows/milestone.yaml
   BRANCH: chore/auto-created-pr/${{ github.run_id }}-${{ github.run_number }}
   PR_TITLE: "chore: add set milestone action"
-  PR_BODY: "See [#401 - Automatically set milestone at issues when closed](https://github.com/open-component-model/ocm-project/issues/401) for more information."
+  PR_BODY: "See [#401 - Automatically set milestone at issues when closed](https://github.com/open-component-model/ocm-project/issues/401) for more information. Now with reuse of central managed action."
   LABEL: component/github-actions
 
 jobs:
@@ -20,71 +20,77 @@ jobs:
       fail-fast: false
       matrix:
         repo:
-          - demo-secure-delivery  
-          - homebrew-tap          
-          - internal-processes    
-          - ocm-action            
-          - ocm-examples          
-          - ocm-integrationtest   
-          - ocm-project           
-          - ocm-setup-action      
-          - ocm-spec              
-          - pkg                   
-          - pocm                  
-          - replication-controller
-          - repository-template   
-          - secretstore           
-          - service-model         
-          - signing-server        
+        - demo-secure-delivery
+        - git-controller
+        - homebrew-tap
+        - internal-processes
+        - ocm
+        - ocm-action
+        - ocm-controller
+        - ocm-e2e-framework
+        - ocm-examples
+        - ocm-integrationtest
+        - ocm-k8s-toolkit
+        - ocm-project
+        - ocm-setup-action
+        - ocm-spec
+        - ocm-website
+        - pkg
+        - pocm
+        - replication-controller
+        - repository-template
+        - secretstore
+        - service-model
+        - signing-server
     permissions:
       contents: write
       pull-requests: write
     steps:
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v2
-        with:
-          app_id: ${{ secrets.OCMBOT_APP_ID }}
-          private_key: ${{ secrets.OCMBOT_PRIV_KEY }}
-      - name: Checkout this
-        uses: actions/checkout@v4
-      - name: Checkout ${{ matrix.repo }}
-        uses: actions/checkout@v4
-        with:
-          path: remote/${{ matrix.repo }}
-          repository: ${{ github.repository_owner }}/${{ matrix.repo }}
-          token: ${{ steps.generate_token.outputs.token }}
+    - name: Generate token
+      id: generate_token
+      uses: tibdex/github-app-token@v2
+      with:
+        app_id: ${{ secrets.OCMBOT_APP_ID }}
+        private_key: ${{ secrets.OCMBOT_PRIV_KEY }}
+    - name: Checkout this
+      uses: actions/checkout@v4
+    - name: Checkout ${{ matrix.repo }}
+      uses: actions/checkout@v4
+      with:
+        path: remote/${{ matrix.repo }}
+        repository: ${{ github.repository_owner }}/${{ matrix.repo }}
+        token: ${{ steps.generate_token.outputs.token }}
 
-      - name: Copy file
-        run: |
-          mkdir -p remote/${{ matrix.repo }}/$(dirname "${{ env.FILE_TO_ADD }}")
-          cp ${{ env.FILE_TO_ADD }} remote/${{ matrix.repo }}/${{ env.FILE_TO_ADD }}
+    - name: Copy file
+      run: |
+        mkdir -p remote/${{ matrix.repo }}/$(dirname "${{ env.FILE_TO_ADD }}")
+        cp ${{ env.FILE_TO_ADD }} remote/${{ matrix.repo }}/${{ env.FILE_TO_ADD }}
 
-      - name: Prepare branch
-        run: |
-          cd remote/${{ matrix.repo }}
-          git checkout -b ${{ env.BRANCH }}
-          git push origin ${{ env.BRANCH }}
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+    - name: Prepare branch
+      run: |
+        cd remote/${{ matrix.repo }}
+        git checkout -b ${{ env.BRANCH }}
+        git push origin ${{ env.BRANCH }}
+      env:
+        GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - name: Create sigened commit
-        run: |
-          cd remote/${{ matrix.repo }}
-          gh api graphql \
-          -F REPO=${{ github.repository_owner }}/${{ matrix.repo }} \
-          -F BRANCH=${{ env.BRANCH }} \
-          -F SHA=$(git rev-parse HEAD) \
-          -F MESSAGE="${{ env.PR_TITLE }}" \
-          -F files[][path]="${{ env.FILE_TO_ADD }}" \
-          -F files[][contents]=$(base64 -w0 ${{ env.FILE_TO_ADD }}) \
-          -F 'query=@../../.github/api/createSignedCommit.gql'
-        env:
-          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+    - name: Create sigened commit
+      run: |
+        cd remote/${{ matrix.repo }}
+        gh api graphql \
+        -F REPO=${{ github.repository_owner }}/${{ matrix.repo }} \
+        -F BRANCH=${{ env.BRANCH }} \
+        -F SHA=$(git rev-parse HEAD) \
+        -F MESSAGE="${{ env.PR_TITLE }}" \
+        -F files[][path]="${{ env.FILE_TO_ADD }}" \
+        -F files[][contents]=$(base64 -w0 ${{ env.FILE_TO_ADD }}) \
+        -F 'query=@../../.github/api/createSignedCommit.gql'
+      env:
+        GH_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - name: Create PR
-        run: |
-          cd remote/${{ matrix.repo }}
-          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --project "OCM Backlog Board" --label "${{ env.LABEL }}" --assignee ${{ github.actor }}
-        env:
-          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+    - name: Create PR
+      run: |
+        cd remote/${{ matrix.repo }}
+        gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --project "OCM Backlog Board" --label "${{ env.LABEL }}" --assignee ${{ github.actor }}
+      env:
+        GH_TOKEN: ${{ steps.generate_token.outputs.token }}
