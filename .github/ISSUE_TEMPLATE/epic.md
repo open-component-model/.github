@@ -1,7 +1,7 @@
 ---
 name: Epic Template
 about: Template for a new Epic
-title: 'Epic: '
+title: 'EPIC: '
 labels: kind/epic
 assignees: ''
 
