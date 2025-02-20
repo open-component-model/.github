@@ -58,6 +58,15 @@ repository:
 # cat labels.json | yq eval -P '.[] | [pick(["name", "color", "description"])]'
 labels:
 ## The different areas of the project
+- name: needs/validation
+  color: f980d1
+  description: Validate the issue and assign a priority
+- name: needs/tech-advice
+  color: f980d1
+  description: Outline technical tasks that need to be done
+- name: needs/refinement
+  color: f980d1
+  description: Discuss with the team and gain a shared understanding
 - name: area/cicd
   color: 0052cc
   description: Continuous Integration and Continuous Deployment related
