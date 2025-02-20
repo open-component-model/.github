@@ -62,8 +62,8 @@ jobs:
 
     - name: Copy file
       run: |
-        mkdir -p remote/${{ matrix.repo }}/$(dirname "${{ env.FILE_TO_ADD }}")
-        cp ${{ env.FILE_TO_ADD }} remote/${{ matrix.repo }}/${{ env.FILE_TO_ADD }}
+        mkdir -p "remote/${{ matrix.repo }}/$(dirname "${{ env.FILE_TO_ADD }}")"
+        cp "${{ env.FILE_TO_ADD }}" "remote/${{ matrix.repo }}/${{ env.FILE_TO_ADD }}"
 
     - name: Prepare branch
       run: |
@@ -75,9 +75,9 @@ jobs:
 
     - name: Create sigened commit
       run: |
-        cd remote/${{ matrix.repo }}
+        cd "remote/${{ matrix.repo }}"
         gh api graphql \
-        -F REPO=${{ github.repository_owner }}/${{ matrix.repo }} \
+        -F "REPO=${{ github.repository_owner }}/${{ matrix.repo }}" \
         -F BRANCH=${{ env.BRANCH }} \
         -F SHA=$(git rev-parse HEAD) \
         -F MESSAGE="${{ env.PR_TITLE }}" \
