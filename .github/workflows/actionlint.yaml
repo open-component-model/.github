@@ -7,5 +7,5 @@ on:
       - '.github/workflows/*'
 jobs:
   actionlint:
-    uses: open-component-model/.github/.github/workflows/actionlint.yml@main
+    uses: open-component-model/.github/.github/workflows/actionlint.yml@chore/actionlint
     secrets: inherit
