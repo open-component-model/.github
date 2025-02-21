@@ -12,8 +12,6 @@ jobs:
   gosec:
     name: Go Security Checker
     runs-on: large_runner
-    container:
-      image: securego/gosec:2.22.1 # needs to be set as the securego/gosec@v2.22.1 uses the securego/gosec:2.22.0 image
     permissions:
       # Required to upload SARIF files
       security-events: write
