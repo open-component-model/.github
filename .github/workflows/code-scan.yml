@@ -5,7 +5,7 @@ on:
     inputs:
       gosec-args:
         description: "Arguments passed to 'gosec' - see: https://github.com/securego/gosec/blob/HEAD/README.md#usage"
-        default: "-fmt sarif -out results.sarif -no-fail -show-ignored ./..."
+        default: "-fmt sarif -out results.sarif -no-fail ./..."
         type: string
 
 jobs:
