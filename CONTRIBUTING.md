@@ -44,7 +44,11 @@ We welcome all types of contributions, including:
 
 Open an issue in any of the repositories in the `open-component-model` organization if you wish to request a new feature or report a bug. If the issue is of a generic kind that does not fit to the specific repositories, open an issue in the [`ocm-project` repository](https://github.com/open-component-model/ocm-project/issues)
 
-Before opening a new issue or submitting a pull request, please make sure to search through the documentation, open and closed issues and open and merged pull requests to check whether your question has been raised or answered already. You can also check the [project board](https://github.com/orgs/open-component-model/projects/10) to see what is currently in the works and what is planned.
+Before opening a new issue or submitting a pull request, please make sure to search through the documentation, open and closed issues and open and merged pull requests to check whether your question has been raised or answered already.
+
+You can also check the [project board](https://github.com/orgs/open-component-model/projects/10) to see what is currently in the works and what is planned.
+
+And last but not least you can always join the [OCM Slack channel](https://kubernetes.slack.com/archives/C05UWBE8R1D) to discuss your ideas or questions.
 
 ## Local Development
 
