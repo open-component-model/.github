@@ -6,9 +6,8 @@ Thank you for taking the time to contribute to OCM.
 
 - [Contributing Guide](#contributing-guide)
   - [DCO](#dco)
-  - [Support Channels](#support-channels)
   - [Ways to Contribute](#ways-to-contribute)
-    - [Find an Issue](#find-an-issue)
+    - [Create an Issue](#create-an-issue)
   - [Local Development](#local-development)
   - [Submitting Pull Requests](#submitting-pull-requests)
     - [Licensing and Copyright information on file level](#licensing-and-copyright-information-on-file-level)
@@ -28,14 +27,6 @@ We require all commits to be [signed](https://docs.github.com/en/authentication/
 
 If your `user.name` and `user.email` are configured in your Git config, you can sign your commit automatically with `git commit -s`.
 
-## Support Channels
-
-Before opening a new issue or submitting a Pull Request, make sure to search through the [docs](https://github.com/open-component-model/ocm-spec), open and closed issues, open and merged Pull Requests, and the [Discussions](https://github.com/open-component-model/ocm/discussions) board to check whether your question has been raised or answered already.
-
-Please open an issue in any of the repositories in the `open-component-model` organization if you wish to [request a new feature](https://github.com/open-component-model/ocm/issues/new?assignees=&labels=kind%2Fenhancement&template=enhancement_request.md) or [report a bug](https://github.com/open-component-model/ocm/issues/new?assignees=&labels=kind%2Fbug&template=bug_report.md).
-
-If you wish to propose or discuss a more involved feature or change to any of the OCM projects, you could start a new thread in the [`ocm` Discussion Board](https://github.com/open-component-model/ocm/discussions). For example, this could be helpful if you wish to vet an idea before writing a feature request. It is a space to discuss in public with maintainers, contributors, users, and other interested parties. After reaching some form of consensus, the proposed changes can go through the [pull request process](#submitting-pull-requests) where implementation details are reviewed, approved, or rejected by maintainers.
-
 ## Ways to Contribute
 
 We welcome all types of contributions, including:
@@ -46,19 +37,14 @@ We welcome all types of contributions, including:
 - Refactoring
 - Backfilling tests
 - Joining discussions
-- Web design
 - Release management
 - Reviews
-- [Board discussions](https://github.com/open-component-model/ocm/discussions)
 
-You may find it helpful to start a new thread in the [`ocm` Discussion Board](https://github.com/open-component-model/ocm/discussions) for questions, help requests, feature requests, or any other type of discussion about OCM. A maintainer will reach out to you as soon as possible.
+### Create an Issue
 
-### Find an Issue
+Open an issue in any of the repositories in the `open-component-model` organization if you wish to request a new feature or report a bug. If the issue is of a generic kind that does not fit to the specific repositories, open an issue in the [`ocm-project` repository](https://github.com/open-component-model/ocm-project/issues)
 
-Take a look at the [OCM issues](https://github.com/open-component-model/ocm/issues) to find out more about what is currently in the works and what is planned.
-If you find something that you are interested in picking up, please leave a comment and wait for a maintainer to give you the green light to claim it and start working on it.
-
-If you would like to contribute but are unsure about where to start, feel free to let the maintainers know through the [`ocm` Discussion Board](https://github.com/open-component-model/ocm/discussions) and someone will reach out to you.
+Before opening a new issue or submitting a pull request, please make sure to search through the documentation, open and closed issues and open and merged pull requests to check whether your question has been raised or answered already. You can also check the [project board](https://github.com/orgs/open-component-model/projects/10) to see what is currently in the works and what is planned.
 
 ## Local Development
 
