@@ -1,0 +1,6 @@
+repository:
+  private: true
+
+  visibility: internal
+
+  archived: false
