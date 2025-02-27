@@ -1,0 +1,11 @@
+name: lint
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/*'
+jobs:
+  actionlint:
+    uses: open-component-model/.github/.github/workflows/actionlint.yml@main
+    secrets: inherit
