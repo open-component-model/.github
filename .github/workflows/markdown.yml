@@ -5,17 +5,14 @@ on:
     inputs:
       md-lint:
         description: 'Path to the markdown configuration file'
-        required: true
         default: '.github/config/markdown.yml'
         type: string
       md-ignore:
         description: 'Path to the markdown ignore file'
-        required: true
         default: '.github/config/markdownignore'
         type: string
       spellcheck:
         description: 'Path to the spellcheck configuration file'
-        required: true
         default: '.github/config/spellcheck.yml'
         type: string
 
