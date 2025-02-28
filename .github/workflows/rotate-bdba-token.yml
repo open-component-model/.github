@@ -42,7 +42,7 @@ jobs:
           
           # Store token as step output 
           echo "::add-mask::$TOKEN"
-          echo "bdba_token=$TOKEN" >> $GITHUB_OUTPUT  
+          echo "bdba_token=$TOKEN" >> "$GITHUB_OUTPUT" 
           
           echo "Successfully generated new BDBA API token"
       
