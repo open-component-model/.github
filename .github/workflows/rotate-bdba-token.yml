@@ -10,6 +10,13 @@ jobs:
   rotate-token:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub token
+        id: generate_token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.OCMBOT_APP_ID }}
+          private_key: ${{ secrets.OCMBOT_PRIV_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@v4
       
