@@ -49,7 +49,7 @@ jobs:
       - name: Update organization secret
         run: |
           # Authenticate with the GitHub CLI and set the secret on org level
-          gh auth login --with-token <<< ${{ secrets.GH_PAT }}
+          gh auth login --with-token <<< ${{ steps.generate_token.outputs.token }}
 
           gh secret set BDBA_API_TOKEN \
           --org open-component-model \
