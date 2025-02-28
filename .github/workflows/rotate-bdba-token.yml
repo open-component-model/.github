@@ -22,7 +22,7 @@ jobs:
       
       - name: Generate new BDBA API token
         id: generate_bdba_token
-        run: | # shellcheck disable=SC2086
+        run: | 
           # Generate new token from the Black Duck Binary Analysis API
           # Using the validity period of 3888000 seconds (45 days)
           RESPONSE=$(curl -s -X PUT \
