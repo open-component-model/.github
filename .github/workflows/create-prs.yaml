@@ -35,6 +35,7 @@ jobs:
         - ocm-setup-action
         - ocm-spec
         - ocm-website
+        - open-component-model
         - pkg
         - pocm
         - replication-controller
