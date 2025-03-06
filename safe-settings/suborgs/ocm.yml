@@ -1,61 +1,102 @@
-# These settings are synced to GitHub by https://probot.github.io/apps/settings/
+# https://github.com/orgs/open-component-model/repositories?q=mirror%3Afalse+fork%3Afalse+archived%3Afalse+-topic%3Aocm-gear+sort%3Aname-asc
+suborgrepos:
+  - demo-secure-delivery
+  - homebrew-tap
+  - internal-processes
+  - ocm
+  - ocm-action
+  - ocm-cicd-playground
+  - ocm-controller
+  - ocm-e2e-framework
+  - ocm-examples
+  - ocm-integrationtest
+  - ocm-k8s-toolkit
+  - ocm-project
+  - ocm-setup-action
+  - ocm-spec
+  - ocm-website
+  - pkg
+  - pocm
+  - podinfo
+  - repository-template
+  - service-model
+  - signing-server
 
+# This are the settings that will be applied to the repositories listed above.
+# See https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-an-organization-repository for all available settings for a repository
 repository:
-  # See https://docs.github.com/en/rest/reference/repos#update-a-repository for all available settings.
-
-## Repository Settings we don't want to manage centrally
-  # The name of the repository. Changing this will rename the repository
-  #name: repo-name
-  # A short description of the repository that will show up on GitHub
-  #description: description of repo
-  # Either `true` to make the repository private, or `false` to make it public.
-  #private: false
-  # Either `true` to enable downloads for this repository, `false` to disable them.
-  #has_downloads: true
-
-## Repository Information
   # A URL with more information about the repository
   homepage: https://ocm.software/
-  # A comma-separated list of topics to set on the repository
-  topics: ocm, open-component-model
-  # Updates the default branch for this repository.
-  default_branch: main
 
-## Repository Features
+  # Create an initial commit with empty README.
+  # Keep this set to true in most cases since many of the policies below cannot be implemented on bare repos
+  auto_init: true
+
+  # A list of topics to set on the repository - can alternatively set like this: [github, probot, new-topic, another-topic, topic-12]
+  topics:
+    - ocm
+    - open-component-model
+
+  # Settings for Code security and analysis
+  # Dependabot Alerts
+  security:
+    enableVulnerabilityAlerts: true
+    enableAutomatedSecurityFixes: true
+
   # Either `true` to enable issues for this repository, `false` to disable them.
   has_issues: true
-  # Either `true` to enable projects for this repository, or `false` to disable them. If projects are disabled for the organization, passing `true` will cause an API error.
+
+  # Either `true` to enable projects for this repository, or `false` to disable them.
+  # If projects are disabled for the organization, passing `true` will cause an API error.
   has_projects: true
+
   # Either `true` to enable the wiki for this repository, `false` to disable it.
   has_wiki: false
 
-## Pull Request Merge Options
-  # Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
-  allow_squash_merge: true
-  # The default value for a squash merge commit title: PR_TITLE, COMMIT_OR_PR_TITLE 
-  squash_merge_commit_title: PR_TITLE
-  # The default value for a squash merge commit message: PR_BODY, COMMIT_MESSAGES, BLANK
-  squash_merge_commit_message: PR_BODY
-  # Either true to allow auto-merge on pull requests, or false to disallow auto-merge.
-  allow_auto_merge: true
-  # Either `true` to enable automatic deletion of branches on merge, or `false` to disable
-  delete_branch_on_merge: true
-  # Either true to always allow a pull request head branch that is behind its base branch to be updated even if it is not required to be up to date before merging, or false otherwise.
-  allow_update_branch: true
+  # The default branch for this repository.
+  default_branch: main
 
-  # Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.
+  # Desired language or platform [.gitignore template](https://github.com/github/gitignore)
+  # to apply. Use the name of the template without the extension.
+  # For example, "Haskell".
+  gitignore_template: go
+
+  # Choose an [open source license template](https://choosealicense.com/)
+  # that best suits your needs, and then use the
+  # [license keyword](https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type)
+  # as the `license_template` string. For example, "mit" or "mpl-2.0".
+  license_template: Apache-2.0
+
+  # Either `true` to allow squash-merging pull requests, or `false` to prevent
+  # squash-merging.
+  allow_squash_merge: true
+
+  # Either `true` to allow merging pull requests with a merge commit, or `false`
+  # to prevent merging pull requests with merge commits.
   allow_merge_commit: false
-  # Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.
+
+  # Either `true` to allow rebase-merging pull requests, or `false` to prevent
+  # rebase-merging.
   allow_rebase_merge: false
 
-## Security & Compliance
-  # Either `true` to enable automated security fixes, or `false` to disable automated security fixes.
-  enable_automated_security_fixes: true
-  # Either `true` to enable vulnerability alerts, or `false` to disable vulnerability alerts.
-  enable_vulnerability_alerts: true
+  # Either `true` to allow auto-merge on pull requests,
+  # or `false` to disallow auto-merge.
+  # Default: `false`
+  allow_auto_merge: true
 
-# Labels: define labels for Issues and Pull Requests
-# cat labels.json | yq eval -P '.[] | [pick(["name", "color", "description"])]'
+  # Either `true` to allow automatically deleting head branches
+  # when pull requests are merged, or `false` to prevent automatic deletion.
+  # Default: `false`
+  delete_branch_on_merge: true
+
+  # Either `true` to  allow update branch on pull requests,
+  # or `false` to disallow update branch.
+  # Default: `false`
+  allow_update_branch: true
+
+# The following attributes are applied to any repo within the org
+# So if a repo is not listed above is created or edited
+# The app will apply the following settings to it
 labels:
 ## The different areas of the project
 - name: needs/validation
@@ -207,57 +248,16 @@ labels:
   color: FF00FF
   description: Needs a little bit of "Fingerspitzengefühl" - aka. be careful when implementing
 
-# Milestones: define milestones for Issues and Pull Requests
-milestones:
-- title: 2024-Q4
-  #description: milestone-description
-  # The state of the milestone. Either `open` or `closed`
-  state: closed
-
-- title: 2025-Q1
-  state: open
-
-- title: 2025-Q2
-  state: open
-
-- title: 2025-Q3
-  state: open
-
-- title: 2025-Q4
-  state: open
-
-- title: 2026-Q1
-  state: open
-
-# Collaborators: give specific users access to this repository.
-# See https://docs.github.com/en/rest/reference/repos#add-a-repository-collaborator for available options
-collaborators:
-  # - username: bkeepers
-  #   permission: push
-  # - username: hubot
-  #   permission: pull
-
-  # Note: `permission` is only valid on organization-owned repositories.
-  # The permission to grant the collaborator. Can be one of:
-  # * `pull` - can pull, but not push to or administer this repository.
-  # * `push` - can pull and push, but not administer this repository.
-  # * `admin` - can pull, push and administer this repository.
-  # * `maintain` - Recommended for project managers who need to manage the repository without access to sensitive or destructive actions.
-  # * `triage` - Recommended for contributors who need to proactively manage issues and pull requests without write access.
-
-# See https://docs.github.com/en/rest/reference/teams#add-or-update-team-repository-permissions for available options
+# Teams
+# See https://docs.github.com/en/rest/teams/teams?apiVersion=2022-11-28#create-a-team for available options
 teams:
 - name: Maintainers
-  # The permission to grant the team. Can be one of:
-  # * `pull` - can pull, but not push to or administer this repository.
-  # * `push` - can pull and push, but not administer this repository.
-  # * `admin` - can pull, push and administer this repository.
-  # * `maintain` - Recommended for project managers who need to manage the repository without access to sensitive or destructive actions.
-  # * `triage` - Recommended for contributors who need to proactively manage issues and pull requests without write access.
   permission: maintain
 - name: Admins
   permission: admin
 
+# Branch protection rules
+# See https://docs.github.com/en/rest/branches/branch-protection?apiVersion=2022-11-28#update-branch-protection for available options
 branches:
 - name: main
   # https://docs.github.com/en/rest/reference/repos#update-branch-protection
@@ -288,8 +288,3 @@ branches:
     enforce_admins: true
     # Prevent merge commits from being pushed to matching branches
     required_linear_history: true
-    # Required. Restrict who can push to this branch. Team and user restrictions are only available for organization-owned repositories. Set to null to disable.
-    #restrictions:
-    #apps: []
-    #users: []
-    #teams: []
