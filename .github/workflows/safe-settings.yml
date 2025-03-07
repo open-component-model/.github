@@ -30,7 +30,7 @@ jobs:
         run: npm run full-sync
         working-directory: "$SAFE_SETTINGS_CODE_DIR"
         env:
-          GH_ORG: ${{ github.repository_owner }}
+          GH_ORG: open-component-model
           APP_ID: ${{ secrets.OCMBOT_APP_ID }}
           PRIVATE_KEY: ${{ secrets.OCMBOT_PRIV_KEY }}
           GITHUB_CLIENT_ID: ${{ secrets.OCMBOT_CLIENT_ID }}
