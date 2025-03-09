@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub token
-        id: generate-github-token
+        id: generate-token
         uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.OCMBOT_APP_ID }}
@@ -49,12 +49,11 @@ jobs:
       - name: Update organization secret
         run: |
           # Authenticate with the GitHub CLI and set the secret on org level
-          gh auth login --with-token <<< ${{ steps.generate_token.outputs.token }}
+          gh auth login --with-token <<< ${{ steps.generate-token.outputs.token }}
 
           gh secret set BDBA_API_TOKEN \
           --org open-component-model \
           --visibility all \
-          --body "${{ steps.generate_bdba_token.outputs.bdba_token }}"
+          --body "${{ steps.generate-bdba-token.outputs.bdba_token }}"
 
           echo "BDBA API token successfully rotated at $(date)"
-
