@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub token
-        id: generate_token
+        id: generate-github-token
         uses: tibdex/github-app-token@v2
         with:
           app_id: ${{ secrets.OCMBOT_APP_ID }}
@@ -49,7 +49,8 @@ jobs:
       - name: Update organization secret
         run: |
           # Authenticate with the GitHub CLI using the generated token
-          gh auth login --with-token <<< ${{ steps.generate-bdba-token.outputs.bdba_token }}
+
+          gh auth login --with-token <<< ${{ steps.generate-github-token.outputs.bdba_token }}
           
           # List of specific repositories to update
           # Secrets do not work out of the box for BDBA action
