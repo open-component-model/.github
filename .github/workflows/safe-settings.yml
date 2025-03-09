@@ -1,0 +1,43 @@
+name: Settings
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - safe-settings/**
+jobs:
+  safeSettingsSync:
+    name: synchronize settings
+    runs-on: ubuntu-latest
+    env:
+      SAFE_SETTINGS_CODE_DIR: "${{ github.workspace }}/.safe-settings-code"
+    steps:
+      - name: Checkout .github (our safe-settings configuration)
+        uses: actions/checkout@v4
+      - name: Checkout github/safe-settings (app) to run full-sync
+        uses: actions/checkout@v4
+        with:
+          repository: github/safe-settings
+          ref: '2.1.16'
+          path: "$SAFE_SETTINGS_CODE_DIR"
+      - name: Setup node
+        uses: actions/setup-node@v4
+      - name: Build safe-settings app
+        run: npm install
+        working-directory: "$SAFE_SETTINGS_CODE_DIR"
+      - name: Run safe-settings full-sync
+        run: npm run full-sync
+        working-directory: "$SAFE_SETTINGS_CODE_DIR"
+        env:
+          GH_ORG: open-component-model
+          APP_ID: ${{ secrets.OCMBOT_APP_ID }}
+          PRIVATE_KEY: ${{ secrets.OCMBOT_PRIV_KEY }}
+          GITHUB_CLIENT_ID: ${{ secrets.OCMBOT_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.OCMBOT_CLIENT_SECRET }}
+          # https://github.com/open-component-model/.github
+          ADMIN_REPO: .github
+          LOG_LEVEL: trace
+          # https://github.com/open-component-model/.github/tree/main/safe-settings
+          CONFIG_PATH: safe-settings
+          DEPLOYMENT_CONFIG_FILE: ${{ github.workspace }}/safe-settings/config.yml

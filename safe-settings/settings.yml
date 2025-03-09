@@ -1,0 +1,26 @@
+# These settings are synced via https://github.com/open-component-model/.github/actions/workflows/safe-settings.yml
+
+# They are applied to ALL repositories, except the ones that are globally excluded. See:
+# https://github.com/open-component-model/.github/tree/main/safe-settings/config.yml#L4
+
+# Milestones: define milestones for Issues and Pull Requests
+milestones:
+- title: 2024-Q4
+  #description: milestone-description
+  # The state of the milestone. Either `open` or `closed`
+  state: closed
+
+- title: 2025-Q1
+  state: open
+
+- title: 2025-Q2
+  state: open
+
+- title: 2025-Q3
+  state: open
+
+- title: 2025-Q4
+  state: open
+
+- title: 2026-Q1
+  state: open
