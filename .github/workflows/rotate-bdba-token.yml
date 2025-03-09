@@ -49,6 +49,7 @@ jobs:
       - name: Update organization secret
         run: |
           # Authenticate with the GitHub CLI using the generated token
+
           gh auth login --with-token <<< ${{ steps.generate-github-token.outputs.bdba_token }}
           
           # List of specific repositories to update
