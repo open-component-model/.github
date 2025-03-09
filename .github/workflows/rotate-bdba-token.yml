@@ -50,13 +50,13 @@ jobs:
         run: |
           # Authenticate with the GitHub CLI using the generated token
           gh auth login --with-token <<< ${{ steps.generate-bdba-token.outputs.token }}
-
+          
           # List of specific repositories to update
           # Secrets do not work out of the box for BDBA action
-          # workflow_run trigger requires GH environments and 
+          # workflow_run trigger requires GH environments and
           # environments require repo-scoped secrets
           REPOSITORIES=("open-component-model" "ocm-cicd-playground" "ocm-k8s-toolkit" "ocm-controller")
-
+          
           # Loop through each repository and set the secret
           for repo in "${REPOSITORIES[@]}"; do
             echo "Setting BDBA_API_TOKEN for repository: $repo"
@@ -64,5 +64,5 @@ jobs:
               --repo "open-component-model/$repo" \
               --body "${{ steps.generate-bdba-token.outputs.bdba_token }}"
           done
-
+          
           echo "BDBA API token successfully rotated for specific repositories at $(date)"
