@@ -36,14 +36,14 @@ jobs:
       - name: Extract OCM Binary from CTF
         id: extract-ocm
         run: |
-          ocm_binary=$(bash ./hack/get_bare_resource_from_ctf.sh \
+          ocm_binary="$(bash ./hack/get_bare_resource_from_ctf.sh \
             "ocm.software/ocmcli" \
             "" \
             "ocmcli" \
             "amd64" \
             "linux" \
             "application/octet-stream" \
-            ${{ github.workspace }}/gen/ctf-aggregated)
+            ${{ github.workspace }}/gen/ctf-aggregated)"
           
           new_loc="${{ github.workspace }}/bin/ocm"
           mkdir -p "$(dirname "$new_loc")"
