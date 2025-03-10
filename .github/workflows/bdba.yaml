@@ -60,7 +60,7 @@ jobs:
             ln -s "$ocm_binary" "$new_loc"
             chmod +x "$new_loc"
             echo "OCM binary linked to \"$new_loc\""
-            echo "binary=\"$new_loc\"" >> $GITHUB_OUTPUT
+            echo "binary=\"$new_loc\"" >> "$GITHUB_OUTPUT"
       
       # Download CVs from CTF as TAR, loop over all TARs and upload them to BDBA
       - name: Upload to Blackduck for CTF
