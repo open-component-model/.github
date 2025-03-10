@@ -1,0 +1,104 @@
+# Workflow to upload CTFs to Black Duck Binary Analysis (BDBA) for scanning.
+# Located in .github repo to be shared across all repositories in the GH org.
+name: BDBA Scan
+
+on:
+  # Trigger for call from other workflows
+  workflow_call:
+    inputs:
+      artifact_id:
+        description: Identifier for the artifact to download
+        required: false
+        type: string
+    # Secrets have to be passed from the calling workflow
+    # as for security reasons secrets are not shared between workflows
+    secrets:
+      BDBA_API_TOKEN:
+        required: true
+      BDBA_URL:
+        required: true
+      BDBA_GROUP_ID:
+        required: true
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  upload-and-scan-ctfs:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Since workflow is called, checkout code from correct repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: open-component-model/ocm
+          ref: main
+
+      # Download the CTF that has been uploaded from release workflow 
+      - name: Download CTF
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '${{ inputs.artifact_id }}'
+          path: ${{ github.workspace }}/gen
+      # Since OCM cli is required to download CVs from CTF extract binary from CTF
+      - name: Extract OCM Binary from CTF
+        id: extract-ocm
+        run: |
+          ocm_binary="$(bash ./hack/get_bare_resource_from_ctf.sh \
+            "ocm.software/ocmcli" \
+            "" \
+            "ocmcli" \
+            "amd64" \
+            "linux" \
+            "application/octet-stream" \
+            ${{ github.workspace }}/gen/ctf-aggregated)"
+            
+            new_loc="${{ github.workspace }}/bin/ocm"
+            mkdir -p "$(dirname "$new_loc")"
+            ln -s "$ocm_binary" "$new_loc"
+            chmod +x "$new_loc"
+            echo "OCM binary linked to \"$new_loc\""
+            echo "binary=\"$new_loc\"" >> "$GITHUB_OUTPUT"
+      
+      # Download CVs from CTF as TAR, loop over all TARs and upload them to BDBA
+      - name: Upload to Blackduck for CTF
+        id: blackduck-upload-ctf
+        run: |
+          set -e  # Exit immediately if any command fails with non-zero status
+          echo "Download CVs from CTF (creates CommonTransportFormat-ctf root folder)"
+          echo "Upload single CVs to BDBA"
+          echo "Large files may take a while to upload. Please be patient."
+          echo
+          cd ${{ github.workspace }}/gen/
+          ${{ steps.extract-ocm.outputs.binary }} download cv --type tar ${{ github.workspace }}/gen/ctf-aggregated
+          # Find all CV tar files within CommonTransportFormat-ctf
+          find "CommonTransportFormat-${{ github.workspace }}/gen/ctf-aggregated" -type f -print0 | while IFS= read -r -d '' file; do
+            # Extract the relative path and construct the upload name
+            relative_path="${file#CommonTransportFormat-${{ github.workspace }}/gen/ctf-aggregated/}"
+            upload_name="${relative_path%/*}"
+            upload_name="${upload_name//\//-}"
+
+            # Extract the version from the filename
+            version=$(basename "$file")
+            version="${version%.tar}"
+
+            # Construct the API URL
+            api_url="${{ secrets.BDBA_URL }}/api/upload/${upload_name}"
+
+            # Upload the file using curl
+            echo "Uploading $upload_name to BDBA"
+            curl_output=$(curl -sS -X PUT -H "Authorization: Bearer ${{ secrets.BDBA_API_TOKEN }}" -H "Group: ${{ secrets.BDBA_GROUP_ID }}" -H "Version: $version" --data-binary "@$file" "$api_url")
+
+            # Check if upload was successful and print results
+            if [[ $(echo "$curl_output" | jq '.meta.code') == "200" ]]; then
+              echo "--- Upload successful ---"
+              echo "   filename:     $(echo "$curl_output" | jq '.results.filename')"
+              echo "   last_updated: $(echo "$curl_output" | jq '.results.last_updated')"
+            else
+              echo "Upload failed with"
+              echo "$curl_output"
+              exit 1
+            fi
+          done

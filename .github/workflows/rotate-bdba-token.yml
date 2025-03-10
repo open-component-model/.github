@@ -1,5 +1,7 @@
+# Rotate Black Duck Binary Analysis API token on a monthly basis
+# The token is used in the worklfow bdba.yaml and stored as a secret on org level
 name: BDBA Token Rotation
-# Rotate the Black Duck Binary Analysis API token on a monthly basis
+
 on:
   schedule:
     # Run on first of every month at 0:37 AM UTC
@@ -20,8 +22,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
+        # Generate new API token using the BDBA API
       - name: Generate new BDBA API token
-        id: generate_bdba_token
+        id: generate-bdba-token
         run: |
           # Generate new token from the Black Duck Binary Analysis API
           # Using the validity period of 3888000 seconds (45 days)
@@ -46,6 +49,7 @@ jobs:
           
           echo "Successfully generated new BDBA API token"
       
+        # Update the organization secret with the new token  
       - name: Update organization secret
         run: |
           # Authenticate with the GitHub CLI and set the secret on org level
