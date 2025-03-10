@@ -45,11 +45,11 @@ jobs:
             "application/octet-stream" \
             ${{ github.workspace }}/gen/ctf-aggregated)
           
-          new_loc=${{ github.workspace }}/bin/ocm
-          mkdir -p "$(dirname $new_loc)"
+          new_loc="${{ github.workspace }}/bin/ocm"
+          mkdir -p "$(dirname "$new_loc")"
           ln -s "$ocm_binary" "$new_loc"
-          chmod +x $new_loc
-          echo "OCM binary linked to $new_loc"
+          chmod +x "$new_loc"
+          echo "OCM binary linked to \"$new_loc\""
           echo "binary=\"$new_loc\"" >> $GITHUB_OUTPUT
 
       - name: Upload to Blackduck for CTF
