@@ -1,5 +1,5 @@
 # Workflow to upload CTFs to Black Duck Binary Analysis (BDBA) for scanning.
-# Located in .github repository to be shared across all repositories in the organization.
+# Located in .github repo to be shared across all repositories in the GH org.
 name: BDBA Scan
 
 on:
