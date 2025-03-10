@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Generate new BDBA API token
-        id: generate_bdba_token
+        id: generate-bdba-token
         run: |
           # Generate new token from the Black Duck Binary Analysis API
           # Using the validity period of 3888000 seconds (45 days)
