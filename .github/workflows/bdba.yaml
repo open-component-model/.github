@@ -36,12 +36,40 @@ jobs:
           repository: open-component-model/ocm
           ref: main
 
+      # Generate new API token for BDB using the BDBA API
+      - name: Generate new BDBA API token
+        id: generate-bdba-token
+        run: |
+          # Generate new token from the Black Duck Binary Analysis API
+          # Using the validity period of 3888000 seconds (45 days)
+          RESPONSE=$(curl -s -X PUT \
+            -H "Content-Type: application/json" \
+            -u "${{ secrets.BDBA_USERNAME }}:${{ secrets.BDBA_PASSWORD }}" \
+            -d '{"validity": 3888000}' \
+            "https://bdba.tools.sap/api/key/")
+          
+          # Extract token from response
+          TOKEN=$(echo "$RESPONSE" | jq -r '.key.value')
+          
+          # Verify token was generated successfully
+          if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
+            echo "Failed to generate new token. API response: $RESPONSE"
+            exit 1
+          fi
+          
+          # Store token as step output 
+          echo "::add-mask::$TOKEN"
+          echo "bdba_token=$TOKEN" >> "$GITHUB_OUTPUT"
+          
+          echo "Successfully generated new BDBA API token"
+
       # Download the CTF that has been uploaded from release workflow 
       - name: Download CTF
         uses: actions/download-artifact@v4
         with:
           pattern: '${{ inputs.artifact_id }}'
           path: ${{ github.workspace }}/gen
+
       # Since OCM cli is required to download CVs from CTF extract binary from CTF
       - name: Extract OCM Binary from CTF
         id: extract-ocm
@@ -89,7 +117,7 @@ jobs:
 
             # Upload the file using curl
             echo "Uploading $upload_name to BDBA"
-            curl_output=$(curl -sS -X PUT -H "Authorization: Bearer ${{ secrets.BDBA_API_TOKEN }}" -H "Group: ${{ secrets.BDBA_GROUP_ID }}" -H "Version: $version" --data-binary "@$file" "$api_url")
+            curl_output=$(curl -sS -X PUT -H "Authorization: Bearer ${{ steps.generate-bdba-token.outputs.bdba_token }}" -H "Group: ${{ secrets.BDBA_GROUP_ID }}" -H "Version: $version" --data-binary "@$file" "$api_url")
 
             # Check if upload was successful and print results
             if [[ $(echo "$curl_output" | jq '.meta.code') == "200" ]]; then
