@@ -19,6 +19,10 @@ on:
         required: true
       BDBA_GROUP_ID:
         required: true
+      BDBA_USERNAME:
+        required: true
+      BDBA_PASSWORD:
+        required: true
 
 permissions:
   actions: read
