@@ -10,7 +10,7 @@ on:
         description: 'Optional detector search depth for the Black Duck scan.'
         required: false
         type: string
-        default: '0'
+        default: '0' # default is required as otherwise Blackduck will throw an error with empty string
       pull_request:
         description: 'Was the tiggering workflow done by a pull request?'
         required: true
