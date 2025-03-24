@@ -1,3 +1,6 @@
+# This central workflow is used to run a Black Duck SCA scan on a repository.
+# It is triggered by the Trigger Blackduck Scan workflow,
+# which is defined in the other repositories' .github/workflows
 name: Execute Blackduck SCA Scan
 
 on:
