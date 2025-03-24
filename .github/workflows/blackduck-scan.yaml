@@ -30,11 +30,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set Detector Search Depth (if provided)
-        if: ${{ inputs.detector_search_depth != '' }}
-        run: |
-          echo "DETECT_DETECTOR_SEARCH_DEPTH=${{ inputs.detector_search_depth }}" >> $GITHUB_ENV
        
       - name: Run Black Duck Full SCA Scan (Push, Manual Trigger or Schedule)
         if: ${{ inputs.event_type != 'pull_request_target' }} 
