@@ -48,7 +48,7 @@ jobs:
 
       - name: Run Black Duck SCA Scan (Pull Requests)
         if: ${{ inputs.event_type == 'pull_request_target' }} 
-        uses: blackduck-inc/black-duck-security-scan@v2.0.0
+        uses: blackduck-inc/black-duck-security-scan@66ede8f408f5c8eb3affd1c8cdfa6eb321c3aa97 #v2.1.0
         env:
           DETECT_PROJECT_USER_GROUPS: opencomponentmodel
           DETECT_PROJECT_VERSION_DISTRIBUTION: opensource
