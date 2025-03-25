@@ -97,7 +97,7 @@ jobs:
             
       - name: Upload Blackduck status file
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: status-json
           path: ${{ steps.check_blackduck_status.outputs.status_file_path }}
