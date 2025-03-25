@@ -45,11 +45,11 @@ jobs:
         id: generate-bdba-token
         run: |
           # Generate new token from the Black Duck Binary Analysis API
-          # Using the validity period of 3888000 seconds (45 days)
+          # Using the validity period of 86400 seconds (1 day)
           RESPONSE=$(curl -s -X PUT \
             -H "Content-Type: application/json" \
             -u "${{ secrets.BDBA_USERNAME }}:${{ secrets.BDBA_PASSWORD }}" \
-            -d '{"validity": 3888000}' \
+            -d '{"validity": 86400}' \
             "https://bdba.tools.sap/api/key/")
           
           # Extract token from response
