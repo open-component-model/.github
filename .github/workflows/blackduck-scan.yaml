@@ -9,8 +9,8 @@ on:
       detector_search_depth:
         description: 'Optional detector search depth for the Black Duck scan.'
         required: false
-        type: string
-        default: '0' # default is required as otherwise Blackduck will throw an error with empty string
+        type: number
+        default: 0 # default is required as otherwise Blackduck will throw an error with empty string
       event_type: 
         description: 'The event type of the rtiggering workflow.'
         required: true
