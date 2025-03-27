@@ -121,7 +121,7 @@ jobs:
 
             # Upload the file using curl
             echo "Uploading $upload_name to BDBA"
-            curl_output=$(curl -sS -X PUT -H "Authorization: Bearer ${{ steps.generate-bdba-token.outputs.bdba_token }}" -H "Group: ${{ secrets.BDBA_GROUP_ID }}" -H "Version: $version" --data-binary "@$file" "$api_url")
+            curl_output=$(curl -sS -X PUT -H "Authorization: Bearer ${{ steps.generate-bdba-token.outputs.bdba_token }}" -H "Group: ${{ secrets.BDBA_GROUP_ID }}" -H "Version: $version" -H "Delete-Binary: true" --data-binary "@$file" "$api_url")
 
             # Check if upload was successful and print results
             if [[ $(echo "$curl_output" | jq '.meta.code') == "200" ]]; then
