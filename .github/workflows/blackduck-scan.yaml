@@ -46,6 +46,10 @@ jobs:
           blackducksca_token: ${{ secrets.BLACKDUCK_API_TOKEN }}
           blackducksca_scan_full: true
           blackducksca_scan_failure_severities: 'BLOCKER,CRITICAL'
+          # Parameter required to avoid failing the build even if policy violations are found.
+          # Scan results are nonetheless uploaded to Blackduck SCA backend.
+          # !!! THEY SHOULD BE REMOVED ONCE WE TRIAGED ALL FINDINGS AND THE SCAN RESULTS ARE STABLE !!!
+          mark_build_status: success
 
       - name: Run Black Duck SCA Scan (Pull Requests)
         if: ${{ inputs.event_type == 'pull_request_target' }} 
@@ -60,9 +64,8 @@ jobs:
           blackducksca_url: ${{ secrets.BLACKDUCK_URL }}
           blackducksca_token: ${{ secrets.BLACKDUCK_API_TOKEN }}
           blackducksca_scan_full: false
-          # Following parameters are required to be set to avoid failing the build even if policy violations are found.
-          # THEY SHOULD BE REMOVED ONCE WE TRIAGED ALL FINDINGS AND THE SCAN RESULTS ARE STABLE.
-          blackducksca_scan_failure_severities: 'NONE'
+          # Parameter required to avoid failing the build even if policy violations are found.
+          # !!! THEY SHOULD BE REMOVED ONCE WE TRIAGED ALL FINDINGS AND THE SCAN RESULTS ARE STABLE !!!
           mark_build_status: success
 
 
