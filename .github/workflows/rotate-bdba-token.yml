@@ -1,11 +1,10 @@
-# Rotate Black Duck Binary Analysis API token on a monthly basis
+# Rotate Black Duck Binary Analysis API token on a twelve weeks basis
 # The token is used in the worklfow bdba.yaml and stored as a secret on org level
 name: BDBA Token Rotation
 
 on:
   schedule:
-    # Run on first of every month at 0:37 AM UTC
-    - cron: '37 0 1 * *'
+    - cron: '37 0 * * 0' # Run every twelve weeks on Sunday at 0:37 AM UTC
   workflow_dispatch: # Allow manual trigger
 
 jobs:
@@ -21,17 +20,32 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      # The token is only generated every twelve weeks
+      # This is done to avoid Token changes during active scans
+      - name: Check if it is the right week
+        id: check-week
+        run: |
+          # Check if the current week number is divisible by 12
+          WEEK_NUM=$(date +%U)
+          IS_TWELFTH_WEEK=$(expr $WEEK_NUM % 12)
+          if [ $IS_TWELFTH_WEEK -eq 0 ]; then
+            echo "SHOULD_RUN=true" >> $GITHUB_ENV
+          else
+            echo "SHOULD_RUN=false" >> $GITHUB_ENV
+          fi
       
-        # Generate new API token using the BDBA API
+      # Generate new API token using the BDBA API every four weeks
       - name: Generate new BDBA API token
         id: generate-bdba-token
+        if: ${{ env.SHOULD_RUN == 'true' }}
         run: |
           # Generate new token from the Black Duck Binary Analysis API
-          # Using the validity period of 3888000 seconds (45 days)
+          # Using the validity period of 7257600 seconds (84 days / 12 weeks)
           RESPONSE=$(curl -s -X PUT \
             -H "Content-Type: application/json" \
-            -u "${{ secrets.BDBA_USERNAME }}:${{ secrets.BDBA_PASSWORD }}" \
-            -d '{"validity": 3888000}' \
+            -H "Authorization: Bearer ${{ secrets.BDBA_API_TOKEN }}" \
+            -d '{"validity": 7257600}' \
             "https://bdba.tools.sap/api/key/")
           
           # Extract token from response
