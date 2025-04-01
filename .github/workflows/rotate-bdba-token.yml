@@ -24,14 +24,13 @@ jobs:
       # Generate new API token using the BDBA API
       - name: Generate new BDBA API token
         id: generate-bdba-token
-        if: ${{ env.SHOULD_RUN == 'true' }}
         run: |
           # Generate new token from the Black Duck Binary Analysis API
-          # Using the validity period of 7257600 seconds (84 days / 12 weeks)
+          # Using the validity period of 3024000 seconds (35 days)
           RESPONSE=$(curl -s -X PUT \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.BDBA_API_TOKEN }}" \
-            -d '{"validity": 7257600}' \
+            -d '{"validity": 3024000}' \
             "https://bdba.tools.sap/api/key/")
           
           # Extract token from response
