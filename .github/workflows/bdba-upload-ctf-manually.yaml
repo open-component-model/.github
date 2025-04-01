@@ -29,6 +29,9 @@ jobs:
           repository: open-component-model/ocm
           ref: main
 
+      - name: Install OCM CLI
+        uses: open-component-model/ocm-setup-action@main
+
       # Download CTF and OCM CLI from GH release assets
       - name: Download CTF and OCM CLI
         run: |
@@ -42,17 +45,6 @@ jobs:
           echo "Downloading CTF from: $CTF_URL"
           mkdir -p "${{ github.workspace }}/gen"
           curl -L -o "${{ github.workspace }}/gen/ctf-aggregated" "$CTF_URL"
-          
-          # Download and extract OCM CLI archive
-          CLI_URL="https://github.com/open-component-model/ocm/releases/download/v${{ github.event.inputs.OCM_VERSION }}/ocm-${{ github.event.inputs.OCM_VERSION }}-linux-amd64.tar.gz"
-          echo "Downloading CLI from: $CLI_URL"
-          curl -L -o "${{ github.workspace }}/ocmcli.tar.gz" "$CLI_URL"
-          mkdir -p "${{ github.workspace }}/bin"
-          tar -xzf "${{ github.workspace }}/ocmcli.tar.gz" --directory "${{ github.workspace }}/bin"
-          chmod +x ocm
-          ocm_binary="${{ github.workspace }}/bin/ocm"
-          echo "OCM binary available at ${ocm_binary}"  
-          echo "binary=\"$ocm-binary\"" >> "$GITHUB_OUTPUT"
       
       # Download CVs from CTF as TAR, loop over all TARs and upload them to BDBA
       - name: Upload CVs from CTF from GH assets to Blackduck
@@ -64,7 +56,7 @@ jobs:
           echo "Large files may take a while to upload. Please be patient."
           echo
           cd ${{ github.workspace }}/gen/
-          ${{ steps.extract-ocm.outputs.binary }} download cv --type tar ${{ github.workspace }}/gen/ctf-aggregated
+          ocm download cv --type tar ${{ github.workspace }}/gen/ctf-aggregated
           # Find all CV tar files within CommonTransportFormat-ctf
           find "CommonTransportFormat-${{ github.workspace }}/gen/ctf-aggregated" -type f -print0 | while IFS= read -r -d '' file; do
             # Extract the relative path and construct the upload name
