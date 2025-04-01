@@ -24,7 +24,6 @@ jobs:
       # Generate new API token using the BDBA API
       - name: Generate new BDBA API token
         id: generate-bdba-token
-        if: ${{ env.SHOULD_RUN == 'true' }}
         run: |
           # Generate new token from the Black Duck Binary Analysis API
           # Using the validity period of 3024000 seconds (35 days)
