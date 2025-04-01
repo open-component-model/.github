@@ -29,39 +29,30 @@ jobs:
           repository: open-component-model/ocm
           ref: main
 
-      # Download CTF from GH release assets
-      - name: Download CTF
+      # Download CTF and OCM CLI from GH release assets
+      - name: Download CTF and OCM CLI
         run: |
           if [ -z "${{ github.event.inputs.OCM_VERSION }}" ]; then
             echo "Error: OCM_VERSION parameter is required"
             exit 1
           fi
           
+          # Download CTF
           CTF_URL="https://github.com/open-component-model/ocm/releases/download/v${{ github.event.inputs.OCM_VERSION }}/ocm-${{ github.event.inputs.OCM_VERSION }}-ctf.tgz"
           echo "Downloading CTF from: $CTF_URL"
-          
           mkdir -p "${{ github.workspace }}/gen"
           curl -L -o "${{ github.workspace }}/gen/ctf-aggregated" "$CTF_URL"
-
-      # Since OCM cli is required to download CVs from CTF, extract binary from CTF
-      - name: Extract OCM Binary from CTF
-        id: extract-ocm
-        run: |
-          ocm_binary="$(bash ./hack/get_bare_resource_from_ctf.sh \
-            "ocm.software/ocmcli" \
-            "" \
-            "ocmcli" \
-            "amd64" \
-            "linux" \
-            "application/octet-stream" \
-            ${{ github.workspace }}/gen/ctf-aggregated)"
-            
-            new_loc="${{ github.workspace }}/bin/ocm"
-            mkdir -p "$(dirname "$new_loc")"
-            ln -s "$ocm_binary" "$new_loc"
-            chmod +x "$new_loc"
-            echo "OCM binary linked to \"$new_loc\""
-            echo "binary=\"$new_loc\"" >> "$GITHUB_OUTPUT"
+          
+          # Download and extract OCM CLI archive
+          CLI_URL="https://github.com/open-component-model/ocm/releases/download/v${{ github.event.inputs.OCM_VERSION }}/ocm-${{ github.event.inputs.OCM_VERSION }}-linux-amd64.tar.gz"
+          echo "Downloading CLI from: $CLI_URL"
+          curl -L -o "${{ github.workspace }}/ocmcli.tar.gz" "$CLI_URL"
+          mkdir -p "${{ github.workspace }}/bin"
+          tar -xzf "${{ github.workspace }}/ocmcli.tar.gz" --directory "${{ github.workspace }}/bin"
+          chmod +x ocm
+          ocm_binary="${{ github.workspace }}/bin/ocm"
+          echo "OCM binary available at ${ocm_binary}"  
+          echo "binary=\"$ocm-binary\"" >> "$GITHUB_OUTPUT"
       
       # Download CVs from CTF as TAR, loop over all TARs and upload them to BDBA
       - name: Upload CVs from CTF from GH assets to Blackduck
