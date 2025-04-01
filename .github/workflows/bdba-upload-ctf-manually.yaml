@@ -28,11 +28,13 @@ jobs:
         with:
           repository: open-component-model/ocm
           ref: main
-
+      # Download OCM CLI from GH release assets
       - name: Install OCM CLI
         uses: open-component-model/ocm-setup-action@main
+        with:
+          version: v${{ github.event.inputs.OCM_VERSION }}
 
-      # Download CTF and OCM CLI from GH release assets
+      # Download CTF from GH release assets
       - name: Download CTF and OCM CLI
         run: |
           if [ -z "${{ github.event.inputs.OCM_VERSION }}" ]; then
