@@ -27,18 +27,32 @@ jobs:
         run: |
           # Generate new token from the Black Duck Binary Analysis API
           # Using the validity period of 3024000 seconds (35 days)
-          RESPONSE=$(curl -s -X PUT \
-            -H "Content-Type: application/json" \
+          RESPONSE=$(curl -s -X POST \
             -H "Authorization: Bearer ${{ secrets.BDBA_API_TOKEN }}" \
             -d '{"validity": 3024000}' \
             "https://bdba.tools.sap/api/key/")
+
+          # Check for curl errors
+          if [ $? -ne 0 ]; then
+            echo "::error::Failed to connect to BDBA API"
+            exit 1
+          fi
           
-          # Extract token from response
+          # Extract token and error message
           TOKEN=$(echo "$RESPONSE" | jq -r '.key.value')
+          ERROR=$(echo "$RESPONSE" | jq -r '.meta.error')
+          CODE=$(echo "$RESPONSE" | jq -r '.meta.code')
+          REASON=$(echo "$RESPONSE" | jq -r '.meta.reason')
           
           # Verify token was generated successfully
+          if [ -n "$ERROR" ] && [ "$ERROR" != "null" ]; then
+            echo "::error::BDBA API Error ($CODE): $ERROR - $REASON"
+            exit 1
+          fi
+
           if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
-            echo "Failed to generate new token. API response: $RESPONSE"
+            echo "::error::Failed to extract token from API response"
+            echo "::debug::Full API response: $RESPONSE"
             exit 1
           fi
           
@@ -59,4 +73,4 @@ jobs:
           --visibility all \
           --body "${{ steps.generate-bdba-token.outputs.bdba_token }}"
 
-          echo "BDBA API token successfully rotated at $(date)"
+          echo "BDBA API token successfully rotated at $(date). Valid for 35 days."
