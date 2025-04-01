@@ -57,7 +57,7 @@ jobs:
           echo "Upload single CVs to BDBA"
           echo "Large files may take a while to upload. Please be patient."
           echo
-          cd ${{ github.workspace }}/gen/
+          cd "${{ github.workspace }}/gen/"
           ocm download cv --type tar ${{ github.workspace }}/gen/ctf-aggregated
           # Find all CV tar files within CommonTransportFormat-ctf
           find "CommonTransportFormat-${{ github.workspace }}/gen/ctf-aggregated" -type f -print0 | while IFS= read -r -d '' file; do
