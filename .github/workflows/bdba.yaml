@@ -1,5 +1,10 @@
 # Workflow to upload CTFs to Black Duck Binary Analysis (BDBA) for scanning.
 # Located in .github repo to be shared across all repositories in the GH org.
+# This workflow is triggered by other workflows, e.g., release workflow.
+# The secret for the BDBA_API_TOKEN is generated in another workflow
+# (https://github.com/open-component-model/.github/actions/workflows/rotate-bdba-token.yml)
+# which is scheduled to run every 30 days. By policy the maximum lifetime of a token is 180 days.
+
 name: BDBA Scan
 
 on:
