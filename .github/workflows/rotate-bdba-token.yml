@@ -1,5 +1,8 @@
-# Rotate Black Duck Binary Analysis API token on a monthly basis
+# Rotate Black Duck Binary Analysis API token on a monthly basis.
+# Per SAP policy the maximum lifetime of a BDBA token is 180 days.
 # The token is used in the worklfow bdba.yaml and stored as a secret on org level
+# The secret is used in the BDBA workflows.
+
 name: BDBA Token Rotation
 
 on:
