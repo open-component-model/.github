@@ -46,7 +46,7 @@ jobs:
           CTF_URL="https://github.com/open-component-model/ocm/releases/download/v${{ github.event.inputs.OCM_VERSION }}/ocm-${{ github.event.inputs.OCM_VERSION }}-ctf.tgz"
           echo "Downloading CTF from: $CTF_URL"
           mkdir -p "${{ github.workspace }}/gen"
-          curl -L -o "${{ github.workspace }}/gen/ctf-aggregated" "$CTF_URL"
+          curl -sS -L -o "${{ github.workspace }}/gen/ctf-aggregated" "$CTF_URL"
       
       # Download CVs from CTF as TAR, loop over all TARs and upload them to BDBA
       - name: Upload CVs from CTF from GH assets to Blackduck
