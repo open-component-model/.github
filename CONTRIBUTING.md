@@ -65,7 +65,7 @@ In general all files of the project are created under Apache 2.0 license. The pr
 ```golang
 // SPDX-FileCopyrightText: Copyright 2010 The Go Authors. All rights reserved.
 //
-// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-License-Identifier: Apache-2.0
 ```
 
 the headers of the source file should be kept and eventually aggregated with the Apache 2.0 license. Please check the [REUSE FAQ](https://reuse.software/faq/#multi-licensing) for details.
