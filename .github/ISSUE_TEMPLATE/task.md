@@ -7,9 +7,9 @@ assignees: ''
 
 ---
 
-**Description**  
+**Description**
 
-**Done Criteria**  
+**Done Criteria**
 - [ ] ...
 - [ ] Code has been reviewed by other team members
 - [ ] Analysis of existing tests (Unit and Integration)

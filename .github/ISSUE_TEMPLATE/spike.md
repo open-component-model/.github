@@ -7,11 +7,11 @@ assignees: ''
 
 ---
 
-**Description**  
+**Description**
 
 ### Timebox: 1 day(s)
 
-**Done Criteria**  
+**Done Criteria**
 - [ ] Estimation of impact on existing code incl. tests
 - [ ] Estimation of impact on Enduser Documentation updated (if applicable)
 - [ ] Estimation of impact on Internal technical Documentation created/updated (if applicable)
