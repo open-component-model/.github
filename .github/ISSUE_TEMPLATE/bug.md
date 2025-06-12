@@ -7,29 +7,29 @@ assignees: ''
 
 ---
 
-**Context**  
+**Context**
 A clear and concise description of what the bug is.
 
-**Version**  
+**Version**
 v0.20.0
 
-**To Reproduce**  
+**To Reproduce**
 Steps to reproduce the behavior:
 
 
-**Actual behavior**  
+**Actual behavior**
 A clear and concise description of what is happening.
 
-**Expected behavior**  
+**Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Screenshots (optional)**  
+**Screenshots (optional)**
 If applicable, add screenshots to help explain your problem.
 
-**Environment**  
+**Environment**
 - [ ] windows
 - [ ] linux
 - [x] mac
 
-**Additional Comments**  
+**Additional Comments**
 Any observation, gut feeling or other information you think help the community to troubleshoot the problem?
