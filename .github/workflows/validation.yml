@@ -4,6 +4,8 @@ on:
     types:
       - opened
 
+permissions:
+  issues: write
 jobs:
   add-labels:
     runs-on: ubuntu-latest
