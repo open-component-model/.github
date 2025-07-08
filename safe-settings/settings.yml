@@ -38,7 +38,7 @@ rulesets:
     # - disabled
     # - active
     # - evaluate
-    enforcement: evaluate
+    enforcement: active
 
     # The actors that can bypass the rules in this ruleset
     bypass_actors:
