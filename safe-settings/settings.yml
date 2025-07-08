@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://github.com/github/safe-settings/blob/main-enterprise/schema/dereferenced/settings.json
 # These settings are synced via https://github.com/open-component-model/.github/actions/workflows/safe-settings.yml
 
 # They are applied to ALL repositories, except the ones that are globally excluded. See:
