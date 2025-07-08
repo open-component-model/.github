@@ -39,7 +39,6 @@ jobs:
           GITHUB_CLIENT_SECRET: ${{ secrets.OCMBOT_CLIENT_SECRET }}
           # https://github.com/open-component-model/.github
           ADMIN_REPO: .github
-          LOG_LEVEL: trace
           # https://github.com/open-component-model/.github/tree/main/safe-settings
           CONFIG_PATH: safe-settings
           DEPLOYMENT_CONFIG_FILE: ${{ github.workspace }}/safe-settings/config.yml
