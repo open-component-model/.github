@@ -12,10 +12,10 @@ milestones:
   state: closed
 
 - title: 2025-Q1
-  state: open
+  state: closed
 
 - title: 2025-Q2
-  state: open
+  state: closed
 
 - title: 2025-Q3
   state: open
