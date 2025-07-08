@@ -5,7 +5,6 @@ suborgrepos:
   - internal-processes
   - ocm
   - ocm-action
-  - ocm-cicd-playground
   - ocm-controller
   - ocm-e2e-framework
   - ocm-examples
@@ -17,7 +16,6 @@ suborgrepos:
   - ocm-website
   - open-component-model
   - pkg
-  - pocm
   - podinfo
   - repository-template
   - service-model
@@ -279,6 +277,8 @@ branches:
         #users: []
         teams:
         - Maintainers
+    # Required. Require commit signatures. Set to null to disable.
+    required_signatures: true
     # Required. Require status checks to pass before merging. Set to null to disable
     required_status_checks:
       # Required. Require branches to be up to date before merging.
