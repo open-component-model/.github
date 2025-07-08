@@ -52,7 +52,7 @@ rulesets:
         # patterns must match for the condition to pass. Also accepts
         # `~DEFAULT_BRANCH` to include the default branch or `~ALL` to
         # include all branches.
-        include: ["~DEFAULT_BRANCH"]#
+        include: ["~DEFAULT_BRANCH"]
         exclude: []
 
       # This condition only exists at the org level (remove for suborg and repo level rulesets)
@@ -98,10 +98,6 @@ rulesets:
           # All conversations on code must be resolved before a pull
           # request can be merged.
           required_review_thread_resolution: true
-          dismissal_restrictions:
-            #users: []
-            teams:
-              - Maintainers
 
       # Choose which status checks must pass before branches can be merged
       # into a branch that matches this rule. When enabled, commits must
