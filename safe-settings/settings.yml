@@ -104,13 +104,13 @@ rulesets:
       # first be pushed to another branch, then merged or pushed directly
       # to a branch that matches this rule after status checks have
       # passed.
-      - type: required_status_checks
-        parameters:
-          # Whether pull requests targeting a matching branch must be
-          # tested with the latest code. This setting will not take
-          # effect unless at least one status check is enabled.
-          strict_required_status_checks_policy: true
-          required_status_checks: []
+#      - type: required_status_checks
+#        parameters:
+#          # Whether pull requests targeting a matching branch must be
+#          # tested with the latest code. This setting will not take
+#          # effect unless at least one status check is enabled.
+#          strict_required_status_checks_policy: true
+#          required_status_checks: []
 
       # Choose which workflows must pass before branches can be merged.
 #      - type: workflows
