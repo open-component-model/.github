@@ -51,10 +51,13 @@ rulesets:
       - actor_id: 7033703
         actor_type: Team
         bypass_mode: pull_request
-      - actor_id: 34423475
+      - actor_id: 2740
         actor_type: Integration
         bypass_mode: always
-      - actor_id: 65887262
+      - actor_id: 29110
+        actor_type: Integration
+        bypass_mode: always
+      - actor_id: 295948
         actor_type: Integration
         bypass_mode: always
     conditions:
