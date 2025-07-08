@@ -52,7 +52,8 @@ rulesets:
         # patterns must match for the condition to pass. Also accepts
         # `~DEFAULT_BRANCH` to include the default branch or `~ALL` to
         # include all branches.
-        include: ["~DEFAULT_BRANCH"]
+        include: ["~DEFAULT_BRANCH"]#
+        exclude: []
 
       # This condition only exists at the org level (remove for suborg and repo level rulesets)
       repository_name:
