@@ -119,13 +119,18 @@ rulesets:
       # first be pushed to another branch, then merged or pushed directly
       # to a branch that matches this rule after status checks have
       # passed.
-#      - type: required_status_checks
-#        parameters:
-#          # Whether pull requests targeting a matching branch must be
-#          # tested with the latest code. This setting will not take
-#          # effect unless at least one status check is enabled.
-#          strict_required_status_checks_policy: true
-#          required_status_checks: []
+      - type: required_status_checks
+        parameters:
+          # Whether pull requests targeting a matching branch must be
+          # tested with the latest code. This setting will not take
+          # effect unless at least one status check is enabled.
+          strict_required_status_checks_policy: true
+          do_not_enforce_on_create: false
+          required_status_checks:
+            # List of status checks that must pass before branches can be merged.
+            # The name of the status check is the name of the workflow run.
+          - context: "DCO"
+            integration_id: "1861"
 
       # Choose which workflows must pass before branches can be merged.
 #      - type: workflows
