@@ -89,16 +89,16 @@ rulesets:
     # Refer to https://docs.github.com/en/rest/orgs/rules#create-an-organization-repository-ruleset
     rules:
       - type: creation
-      - type: update
-        parameters:
-          # Branch can pull changes from its upstream repository
-          update_allows_fetch_and_merge: true
       - type: deletion
       - type: required_linear_history
       - type: required_signatures
       - type: non_fast_forward
       - type: pull_request
         parameters:
+          allowed_merge_methods:
+            # The merge methods that are allowed for pull requests
+            # targeting branches that match this rule.
+            - squash_merge
           # Reviewable commits pushed will dismiss previous pull
           # request review approvals.
           dismiss_stale_reviews_on_push: true
