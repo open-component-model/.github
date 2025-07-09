@@ -81,7 +81,7 @@ rulesets:
         # Array of repository names or patterns to exclude. The
         # condition will not pass if any of these patterns
         # match.
-        exclude: ['.github', 'jenkins-library', 'cobra', 'delivery-*', 'ocm-gear*', 'prometheus']
+        exclude: ['.github', 'jenkins-library', 'cobra', 'delivery-*', 'ocm-gear*', 'prometheus', 'ocm-controller']
         # Whether renaming of target repositories is
         # prevented.
         protected: true
