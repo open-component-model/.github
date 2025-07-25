@@ -23,6 +23,14 @@ Here are some suggested starting points:
 - Start with the documentation about [Model Elements](https://github.com/open-component-model/ocm-spec/blob/main/doc/01-model/02-elements-toplevel.md#model-elements).
 - Check out this [demo](https://github.com/open-component-model/demo-secure-delivery) that shows an end-2-end scenario in an air-gapped environment, integrating OCM with [Flux](https://github.com/fluxcd/flux2).
 
+## :handshake: OCM and ApeiroRA
+
+OCM extends ApeiroRA's Platform Mesh principles by providing secure, reliable delivery and deployment of software - across cloud, on-prem, hybrid, and even air-gapped environments. By decoupling and streamlining lifecycle processes like compliance checks, security scans, and deployments, OCM helps teams collaborate more effectively and build trust into every step of the software supply chain.
+
+## :pushpin: OCM and NeoNephos
+
+OCM has been donated to the NeoNephos Foundation, a Linux Foundation initiative dedicated to advancing open-source projects that align with the strategic objectives of IPCEI-CIS under neutral governance. Learn more about NeoNephos and our role within it [here](https://neonephos.org).
+
 ## Contributing
 
 We welcome all contributions from the community!

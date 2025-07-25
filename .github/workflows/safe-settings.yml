@@ -1,11 +1,14 @@
 name: Settings
 on:
+  schedule:
+    - cron: "0 */4 * * *"
   workflow_dispatch: {}
   push:
     branches:
       - main
     paths:
       - safe-settings/**
+      - .github/workflows/safe-settings.yml
 jobs:
   safeSettingsSync:
     name: synchronize settings
