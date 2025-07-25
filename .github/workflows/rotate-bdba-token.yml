@@ -1,6 +1,9 @@
 # Rotate Black Duck Binary Analysis API token on a monthly basis
 # The token is used in the worklfow bdba.yaml and stored as a secret on org level
 name: BDBA Token Rotation
+permissions:
+  contents: read
+  secrets: write
 
 on:
   schedule:
