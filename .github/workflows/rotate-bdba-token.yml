@@ -2,6 +2,9 @@
 # The token is used in the worklfow bdba.yaml and stored as a secret on org level
 name: BDBA Token Rotation
 
+permissions:
+  contents: read
+
 on:
   schedule:
     - cron: '37 2 1 * *' # Run on every 1st of month 2:37 AM UTC
