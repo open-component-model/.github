@@ -266,6 +266,8 @@ teams:
   permission: maintain
 - name: Admins
   permission: admin
+- name: Collaborators
+  permission: triage
 
 # Branch protection rules
 # See https://docs.github.com/en/rest/branches/branch-protection?apiVersion=2022-11-28#update-branch-protection for available options
