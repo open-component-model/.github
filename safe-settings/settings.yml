@@ -4,27 +4,34 @@
 # They are applied to ALL repositories, except the ones that are globally excluded. See:
 # https://github.com/open-component-model/.github/tree/main/safe-settings/config.yml#L4
 
+
+
+
 # Milestones: define milestones for Issues and Pull Requests
 milestones:
-- title: 2024-Q4
-  #description: milestone-description
-  # The state of the milestone. Either `open` or `closed`
-  state: closed
+  - title: '2024-Q4'
+    state: 'closed'
+    description: '4th quarter of 2024'
 
-- title: 2025-Q1
-  state: closed
+  - title: '2025-Q1'
+    state: 'closed'
+    description: '1st quarter of 2025'
 
-- title: 2025-Q2
-  state: closed
+  - title: '2025-Q2'
+    state: 'closed'
+    description: '2nd quarter of 2025'
 
-- title: 2025-Q3
-  state: open
+  - title: '2025-Q3'
+    state: 'open'
+    description: '3rd quarter of 2025'
 
-- title: 2025-Q4
-  state: open
+  - title: '2025-Q4'
+    state: 'open'
+    description: '4th quarter of 2025'
 
-- title: 2026-Q1
-  state: open
+  - title: '2026-Q1'
+    state: 'open'
+    description: '1st quarter of 2026'
 
 # Rulesets
 # See https://docs.github.com/en/rest/orgs/rules?apiVersion=2022-11-28#create-an-organization-repository-rulesetfor available options
