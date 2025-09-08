@@ -9,7 +9,6 @@ suborgrepos:
   - ocm-e2e-framework
   - ocm-examples
   - ocm-integrationtest
-  - ocm-k8s-toolkit
   - ocm-project
   - ocm-setup-action
   - ocm-spec
