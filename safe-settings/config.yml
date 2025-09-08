@@ -8,7 +8,7 @@ restrictedRepos:
     - '^delivery-*'
     - '^ocm-gear$'
     - '^prometheus$'
-    - '^\vscode-ocm-tools$' # archived
-    - '^\ocm-k8s-toolkit$' # archived
+    - '^vscode-ocm-tools$' # archived
+    - '^ocm-k8s-toolkit$' # archived
   # Alternatively you can only include certain repos
   #include: ['^ocm-*']

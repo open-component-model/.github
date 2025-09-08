@@ -12,26 +12,32 @@ milestones:
   - title: '2024-Q4'
     state: 'closed'
     description: '4th quarter of 2024'
+    due_on: '2024-12-31'
 
   - title: '2025-Q1'
     state: 'closed'
     description: '1st quarter of 2025'
+    due_on: '2025-04-07'
 
   - title: '2025-Q2'
     state: 'closed'
     description: '2nd quarter of 2025'
+    due_on: '2025-06-30'
 
   - title: '2025-Q3'
     state: 'open'
     description: '3rd quarter of 2025'
+    due_on: '2025-09-30'
 
   - title: '2025-Q4'
     state: 'open'
     description: '4th quarter of 2025'
+    due_on: '2025-12-31'
 
   - title: '2026-Q1'
     state: 'open'
     description: '1st quarter of 2026'
+    due_on: '2026-04-07'
 
 # Rulesets
 # See https://docs.github.com/en/rest/orgs/rules?apiVersion=2022-11-28#create-an-organization-repository-rulesetfor available options
