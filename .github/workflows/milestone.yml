@@ -6,6 +6,8 @@ jobs:
   set_milestone:
     name: Set milestone
     runs-on: ubuntu-latest
+    # Execute only if not executed from a fork (secrets available)
+    if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'issues'
     permissions:
       issues: write
       pull-requests: write
