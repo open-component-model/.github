@@ -39,6 +39,7 @@ jobs:
           DETECT_PROJECT_VERSION_DISTRIBUTION: opensource
           DETECT_BLACKDUCK_SIGNATURE_SCANNER_ARGUMENTS: '--min-scan-interval=0'
           DETECT_DETECTOR_SEARCH_DEPTH: ${{ inputs.detector_search_depth }}
+          DETECT_ACCURACY_REQUIRED: NONE
           NODE_TLS_REJECT_UNAUTHORIZED: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -77,7 +78,7 @@ jobs:
         shell: bash
         run: |
           # Use find to locate status file
-          STATUS_FILE=$(find "$GITHUB_WORKSPACE/.bridge/Blackduck SCA Detect Execution/detect/runs" -name "status.json" | head -n 1)
+          STATUS_FILE=$(find "$GITHUB_WORKSPACE/.bridge/blackduck_sca_detect_execution/detect/runs" -name "status.json" | head -n 1)
       
           if [ -z "$STATUS_FILE" ]; then
             echo "::warning file=status.json::No Black Duck status file found"
