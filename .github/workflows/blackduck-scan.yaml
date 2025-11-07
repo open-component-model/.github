@@ -59,6 +59,7 @@ jobs:
           DETECT_PROJECT_USER_GROUPS: opencomponentmodel
           DETECT_PROJECT_VERSION_DISTRIBUTION: opensource
           DETECT_DETECTOR_SEARCH_DEPTH: ${{ inputs.detector_search_depth }}
+          DETECT_ACCURACY_REQUIRED: NONE
           NODE_TLS_REJECT_UNAUTHORIZED: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
