@@ -10,5 +10,6 @@ restrictedRepos:
     - '^prometheus$'
     - '^vscode-ocm-tools$' # archived
     - '^ocm-k8s-toolkit$' # archived
+    - '^service-model$' # archived
   # Alternatively you can only include certain repos
   #include: ['^ocm-*']
