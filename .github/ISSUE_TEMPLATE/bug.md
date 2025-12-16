@@ -37,6 +37,7 @@ ocmconfig`). Be careful to redact any sensitive information.
   - the relevant controller logs
   - the cluster infrastructure you are running on (like kind)
   - the kubernetes/kro/flux version
+    - `ocm get cv ... -r` and `ocm get resources ... -r` of relevant OCM artefacts
 -->
 
 **Actual behavior**
