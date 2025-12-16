@@ -7,4 +7,8 @@ labels: kind/feature
 ---
 
 **Description**
-What would you like to be added? Why is this needed?
+<!---
+What would you like to be added?
+Why is this needed?
+-->
+
