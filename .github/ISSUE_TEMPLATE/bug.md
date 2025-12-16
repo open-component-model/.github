@@ -15,7 +15,7 @@ Please provide a clear and concise description of the bug.
 **Version**
 <!---
 Please provide the version of the project are you using?
-- For ocm-cli, run `ocm version`.
+- For ocm-cli, run `ocm --version`.
 - For ocm-controllers, check the image specified in your deployment.
 -->
 
@@ -34,10 +34,11 @@ ocmconfig`). Be careful to redact any sensitive information.
 
 - For the ocm-controllers, provide information about
   - the relevant kubernetes resource manifests
+  - the relevant ocm components and artifacts (an overview can be provided 
+    by `ocm get cv ... -r` and `ocm get resources ... -r`)
   - the relevant controller logs
   - the cluster infrastructure you are running on (like kind)
   - the kubernetes/kro/flux version
-    - `ocm get cv ... -r` and `ocm get resources ... -r` of relevant OCM artefacts
 -->
 
 **Actual behavior**
