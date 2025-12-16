@@ -36,7 +36,7 @@ ocmconfig`). Be careful to redact any sensitive information.
   - the relevant kubernetes resource manifests
   - the relevant controller logs
   - the cluster infrastructure you are running on (like kind)
-  - the kubernetes version
+  - the kubernetes/kro/flux version
 -->
 
 **Actual behavior**
