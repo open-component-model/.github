@@ -17,15 +17,15 @@ jobs:
       SAFE_SETTINGS_CODE_DIR: "${{ github.workspace }}/.safe-settings-code"
     steps:
       - name: Checkout .github (our safe-settings configuration)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Checkout github/safe-settings (app) to run full-sync
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: github/safe-settings
-          ref: '2.1.17'
+          ref: '2.1.18'
           path: "$SAFE_SETTINGS_CODE_DIR"
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
       - name: Build safe-settings app
         run: npm install
         working-directory: "$SAFE_SETTINGS_CODE_DIR"
