@@ -19,7 +19,7 @@ OCM is an open standard and toolkit for packaging, signing, transporting, and de
 
 ## :handshake: OCM and ApeiroRA
 
-OCM extends ApeiroRA's Platform Mesh principles by providing secure, reliable delivery and deployment of software - across cloud, on-prem, hybrid, and even air-gapped environments. By decoupling and streamlining lifecycle processes like compliance checks, security scans, and deployments, OCM helps teams collaborate more effectively and build trust into every step of the software supply chain.
+OCM extends [ApeiroRA's](https://apeirora.eu) Platform Mesh principles by providing secure, reliable delivery and deployment of software - across cloud, on-prem, hybrid, and even air-gapped environments. By decoupling and streamlining lifecycle processes like compliance checks, security scans, and deployments, OCM helps teams collaborate more effectively and build trust into every step of the software supply chain.
 
 ## :pushpin: OCM and NeoNephos
 
