@@ -42,6 +42,9 @@ rulesets:
       - actor_id: 295948 # ocm-bot
         actor_type: Integration
         bypass_mode: always
+      - actor_id: 2439345 # odg ci (https://github.com/apps/federated-github-access)
+        actor_type: Integration
+        bypass_mode: always
     conditions:
       # Parameters for a repository ruleset ref name condition
       ref_name:
