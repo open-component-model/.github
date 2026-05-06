@@ -5,9 +5,6 @@ restrictedRepos:
     - '^\.github$'
     - '^jenkins-library$'
     - '^cobra$'
-    - '^delivery-*'
-    - '^ocm-gear$'
-    - '^prometheus$'
     - '^vscode-ocm-tools$' # archived
     - '^ocm-k8s-toolkit$' # archived
     - 'service-model' # archived
