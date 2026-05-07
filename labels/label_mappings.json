@@ -1,6 +1,5 @@
 {
     "area/open-source": "area/community",
-    "component/ocm-website": "area/documentation",
     "area/networking": "area/network",
     "testing": "area/testing",
     "github-actions": "component/github-actions",

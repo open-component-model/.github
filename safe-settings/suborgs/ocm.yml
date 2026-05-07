@@ -2,7 +2,6 @@
 suborgrepos:
   - demo-secure-delivery
   - homebrew-tap
-  - internal-processes
   - ocm
   - ocm-action
   - ocm-controller
@@ -12,7 +11,6 @@ suborgrepos:
   - ocm-project
   - ocm-setup-action
   - ocm-spec
-  - ocm-website
   - open-component-model
   - pkg
   - podinfo
@@ -161,9 +159,6 @@ labels:
 - name: component/ocm-spec
   color: 25399e
   description: Open Component Model Specification
-- name: component/ocm-website
-  color: 25399e
-  description: https://ocm.software/
 - name: component/github-actions
   color: 25399e
   description: Changes on GitHub Actions or within `.github/` directory
