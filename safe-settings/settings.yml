@@ -33,6 +33,9 @@ rulesets:
       - actor_id: 7033703
         actor_type: Team
         bypass_mode: pull_request
+      - actor_id: 12680595 # ODG Maintainers team (https://github.com/orgs/open-component-model/teams/odg-maintainers)
+        actor_type: Team
+        bypass_mode: pull_request
       - actor_id: 2740 # renovate
         actor_type: Integration
         bypass_mode: always
