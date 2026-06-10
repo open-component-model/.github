@@ -18,13 +18,15 @@ on:
         default: 'lifecycle/stale'
         type: string
 
-permissions:
-  contents: read # only for delete-branch option we would need write
-  issues: write
-  pull-requests: write
+permissions: {}
+
 jobs:
   stale:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # only for delete-branch option we would need write
+      issues: write
+      pull-requests: write
     steps:
       - uses: actions/stale@v9
         with:

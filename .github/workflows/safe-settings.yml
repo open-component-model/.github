@@ -9,6 +9,12 @@ on:
     paths:
       - safe-settings/**
       - .github/workflows/safe-settings.yml
+
+# safe-settings authenticates via the OCMBOT GitHub App (APP_ID/PRIVATE_KEY),
+# so GITHUB_TOKEN only needs read access for checkout.
+permissions:
+  contents: read
+
 jobs:
   safeSettingsSync:
     name: synchronize settings

@@ -12,6 +12,9 @@ on:
         default: './**/*.y*ml ./**/*.go'
         type: string
 
+permissions:
+  contents: read
+
 jobs:
   codespell:
     name: codespell
