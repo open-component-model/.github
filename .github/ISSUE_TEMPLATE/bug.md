@@ -2,8 +2,7 @@
 name: Bug
 about: "🪲 Create a bug to help the projects improve"
 title: ''
-labels: kind/bug, kind/task
-assignees: ''
+type: Bug
 
 ---
 

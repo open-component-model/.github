@@ -17,7 +17,6 @@ categories:
   - '!BREAKING-CHANGE!'
 - title: '🚀 Features'
   labels:
-  - 'kind/epic'
   - 'kind/feature'
   - 'kind/poc'
 - title: '🐛 Bug Fixes'
