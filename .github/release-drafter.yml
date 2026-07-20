@@ -1,3 +1,6 @@
+# This file is used by the Release Drafter GitHub Action to automatically generate release notes, in case no repo-local drafter is defined.
+# Used by https://github.com/open-component-model/ocm-controller and https://github.com/open-component-model/ocm
+
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 version-template: '$COMPLETE'
