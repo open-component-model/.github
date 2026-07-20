@@ -8,8 +8,6 @@
     "fix": "kind/bugfix",
     "bug": "kind/bugfix",
     "kind/enhancement": "kind/feature",
-    "Task": "kind/task",
-    "task": "kind/task",
     "good first issue": "kind/good-first-issue",
     "chore": "kind/chore",
     "dependencies": "kind/dependency",
