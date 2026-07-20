@@ -21,7 +21,6 @@ categories:
 - title: '🚀 Features'
   labels:
   - 'kind/feature'
-  - 'kind/poc'
 - title: '🐛 Bug Fixes'
   collapse-after: 5
   labels:
@@ -30,15 +29,10 @@ categories:
   collapse-after: 5
   labels:
   - 'area/documentation'
-- title: '🥺 Deprecation'
-  collapse-after: 3
-  labels:
-  - 'kind/deprecation'
 - title: '🧰 Maintenance'
   collapse-after: 3
   labels:
   - 'kind/chore'
-  - 'kind/refactor'
 - title: '⬆️ Dependencies'
   collapse-after: 3
   labels:
