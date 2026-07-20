@@ -172,21 +172,12 @@ labels:
 - name: kind/good-first-issue
   color: 7057ff
   description: Good for newcomers
-- name: kind/poc
-  color: c7def8
-  description: Proof of Concept or Prototype
 - name: kind/chore
   color: c7def8
   description: chore, maintenance, etc.
 - name: kind/dependency
   color: c7def8
   description: dependency update, etc.
-- name: kind/refactor
-  color: c7def8
-  description: refactoring, maintenance, etc.
-- name: kind/deprecation
-  color: c7def8
-  description: whenever something gets deprecated
 - name: kind/skip-release-notes
   color: c7def8
   description: Pull request will not appear in release notes
