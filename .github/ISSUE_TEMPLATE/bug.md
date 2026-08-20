@@ -14,7 +14,7 @@ Please provide a clear and concise description of the bug.
 **Version**
 <!---
 Please provide the version of the project are you using?
-- For ocm-cli, run `ocm --version`.
+- For ocm-cli, run `ocm version`.
 - For ocm-controllers, check the image specified in your deployment.
 -->
 
