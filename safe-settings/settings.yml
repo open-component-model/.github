@@ -74,7 +74,10 @@ rulesets:
         exclude: ['.github', 'jenkins-library', 'cobra', 'ocm-controller']
         # Whether renaming of target repositories is
         # prevented.
-        protected: true
+        # Note: `protected: true` cannot be combined with `include: ["~ALL"]`
+        # since GitHub introduced server-side validation (~Aug 20, 2026).
+        # See: https://docs.github.com/rest/orgs/rules#update-an-organization-repository-ruleset
+        protected: false
 
     # Refer to https://docs.github.com/en/rest/orgs/rules#create-an-organization-repository-ruleset
     rules:
