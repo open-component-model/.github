@@ -1,0 +1,12 @@
+// Central renovate configuration for runs orchestrated by
+// .github/workflows/renovate-schedule.yml. This file is the global config for
+// every target repository listed in .github/renovate-repositories.json;
+// repository-local configs (renovate.json[5], .github/renovate.json[5], ...)
+// still apply per repository on top.
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  // Add org-wide defaults here, e.g.:
+  // labels: ['dependencies'],
+  // timezone: 'Europe/Berlin',
+  // schedule: ['at any time'],
+}
