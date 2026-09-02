@@ -1,7 +1,6 @@
 {
     "area/open-source": "area/community",
-    "area/networking": "area/network",
-    "testing": "area/testing",
+    "testing": "area/quality",
     "github-actions": "component/github-actions",
     "kind/bug": "kind/bugfix",
     "kind/fix": "kind/bugfix",
@@ -10,12 +9,13 @@
     "kind/enhancement": "kind/feature",
     "good first issue": "kind/good-first-issue",
     "chore": "kind/chore",
+    "refactor": "kind/chore",
     "dependencies": "kind/dependency",
     "documentation": "area/documentation",
     "kind/documentation": "area/documentation",
     "component/vscode-extension": "lifecycle/rotten",
+    "component/MPAS": "lifecycle/stale",
     "second-opinion": "dev/second-opinion",
     "kind/discussion": "dev/second-opinion",
-    "component/MPAS": "lifecycle/stale",
     "duplicate": "lifecycle/duplicate"
 }
