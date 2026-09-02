@@ -1,0 +1,258 @@
+name: Renovate
+# Reusable renovate runner for ONE target repository (inputs.repository).
+#
+# Callers:
+# - .github/workflows/renovate-schedule.yml (central sweeper over the saved
+#   repository list .github/renovate-repositories.json)
+# - individual repositories via a thin caller workflow (push/PR/dispatch)
+#
+# Credentials: full runs need a GitHub App (vars.ODG_BOT_APP_ID +
+# secrets.ODG_BOT_PRIVATE_KEY) installed on the target repository; otherwise the
+# run degrades to a read-only dry-run (RENOVATE_DRY_RUN=extract). dryRun forces
+# a read-only run even when credentials are configured (App token is then
+# requested with read-only permissions only).
+on:
+  workflow_call:
+    inputs:
+      repository:
+        description: 'Target repository (owner/name)'
+        required: true
+        type: string
+      centralRepo:
+        description: 'Repository hosting the central renovate config (default: vars.RENOVATE_CENTRAL_REPO or open-component-model/.github)'
+        required: false
+        type: string
+        default: ''
+      centralRef:
+        description: 'Ref of centralRepo to take the central config from'
+        required: false
+        type: string
+        default: main
+      repoCache:
+        description: 'Repository cache: enabled (use + update), disabled (skip), reset (discard old, start fresh)'
+        type: string
+        default: enabled
+      ignoreSchedule:
+        description: 'Ignore renovate schedule settings'
+        type: boolean
+        default: false
+      logLevel:
+        description: 'Log level (info|debug)'
+        type: string
+        default: info
+      useOdgbotCredentials:
+        description: 'Use GitHub App credentials if configured (else: GITHUB_TOKEN, read-only)'
+        type: boolean
+        default: true
+      dryRun:
+        description: 'Force read-only run even if App credentials are configured'
+        type: boolean
+        default: false
+  # Manual single-target runs (e.g. config change tests). In repositories
+  # without App credentials this is always a read-only dry-run.
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: 'Target repository (owner/name), e.g. open-component-model/ocm'
+        required: true
+        type: string
+      centralRepo:
+        description: 'Repository hosting the central renovate config (default: vars.RENOVATE_CENTRAL_REPO or open-component-model/.github)'
+        required: false
+        type: string
+        default: ''
+      centralRef:
+        description: 'Ref of centralRepo to take the central config from'
+        required: false
+        type: string
+        default: main
+      repoCache:
+        description: 'Repository cache: enabled (use + update), disabled (skip), reset (discard old, start fresh)'
+        type: choice
+        default: enabled
+        options: [ enabled, disabled, reset ]
+      ignoreSchedule:
+        description: 'Ignore renovate schedule settings'
+        type: boolean
+        default: false
+      logLevel:
+        description: 'Log level'
+        type: choice
+        default: info
+        options: [ info, debug ]
+      useOdgbotCredentials:
+        description: 'Use GitHub App credentials if configured (else: GITHUB_TOKEN)'
+        type: boolean
+        default: true
+      dryRun:
+        description: 'Force read-only run even if App credentials are configured'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  cache_dir: /tmp/renovate/cache/renovate/repository
+  cache_key_prefix: renovate-cache
+  # Path of the central config inside the central repository (checked out
+  # sparse into ./central below; RENOVATE_CONFIG_FILE points there for both
+  # validation and the renovate run itself).
+  central_config_file: .github/renovate.json5
+  RENOVATE_CONFIG_FILE: ${{ github.workspace }}/central/.github/renovate.json5
+  CENTRAL_REPO: ${{ inputs.centralRepo || vars.RENOVATE_CENTRAL_REPO || 'open-component-model/.github' }}
+  CENTRAL_REF: ${{ inputs.centralRef || 'main' }}
+
+jobs:
+  # validate is side-effect-free and runs everywhere (incl. forks).
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout central renovate config
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ env.CENTRAL_REPO }}
+          ref: ${{ env.CENTRAL_REF }}
+          path: central
+          sparse-checkout: ${{ env.central_config_file }}
+          persist-credentials: false
+
+      - name: Create validator script
+        run: |
+          cat > renovate-config-validator.sh <<'EOF'
+          #!/bin/bash
+          renovate-config-validator "$RENOVATE_CONFIG_FILE"
+          EOF
+          chmod +x renovate-config-validator.sh
+
+      - name: Validate Renovate config
+        uses: renovatebot/github-action@5402b206248e5a8c8427a15102702eb9c1793efc # v46.2.4
+        with:
+          docker-cmd-file: renovate-config-validator.sh
+          renovate-version: '44.39.0@sha256:e331219979fc6b38fc5cf7cd5beda63d4fc19963c3ef20404a2e99c8c12118a0'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # Behaviour depends on whether the GitHub App credentials are used (see
+  # USE_ODGBOT): full runs manage real PRs, everything else — forced dryRun or
+  # missing credentials — is a read-only run with RENOVATE_DRY_RUN=extract.
+  renovate:
+    runs-on: ubuntu-latest
+    needs: validate
+    concurrency:
+      group: renovate-${{ inputs.repository }}
+      cancel-in-progress: false
+    env:
+      # Full runs use the App credentials whenever they are configured and not
+      # disabled via the useOdgbotCredentials toggle (forks don't have the
+      # credentials configured, so they always dry-run). dryRun does not
+      # affect USE_ODGBOT — the token is still generated (read-only, see
+      # below) so cross-repository read access keeps working.
+      USE_ODGBOT: ${{ vars.ODG_BOT_APP_ID != '' && inputs.useOdgbotCredentials }}
+    environment:
+      name: renovate
+      deployment: false
+    steps:
+      - name: Parse target repository
+        id: repo
+        env:
+          TARGET: ${{ inputs.repository }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$TARGET" =~ ^[^/[:space:]]+/[^/[:space:]]+$ ]]; then
+            echo "::error::repository must be in owner/name form: $TARGET"
+            exit 1
+          fi
+          {
+            echo "owner=${TARGET%%/*}"
+            echo "name=${TARGET#*/}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Checkout central renovate config
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ env.CENTRAL_REPO }}
+          ref: ${{ env.CENTRAL_REF }}
+          path: central
+          sparse-checkout: ${{ env.central_config_file }}
+          persist-credentials: false
+
+      # Restore the repository cache written by the last full run for this
+      # target (unique key per run, prefix-matched on restore; unused entries
+      # expire after 7 days). Caches live in the CALLER repository's cache
+      # namespace, keyed per target repository. Skipped when the cache is
+      # disabled or reset — reset rebuilds a fresh cache below.
+      - name: Restore renovate cache
+        if: inputs.repoCache == 'enabled'
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ env.cache_dir }}
+          key: ${{ env.cache_key_prefix }}-${{ steps.repo.outputs.name }}-${{ github.run_id }}
+          restore-keys: ${{ env.cache_key_prefix }}-${{ steps.repo.outputs.name }}-
+
+      # The containerized renovate runs as uid 12021 and needs write access to
+      # the restored cache directory.
+      - name: Fix cache directory permissions
+        if: inputs.repoCache != 'disabled'
+        run: |
+          set -euxo pipefail
+          sudo mkdir -p "$cache_dir"
+          sudo chown -R 12021:0 /tmp/renovate/
+
+      - name: Generate App token
+        if: env.USE_ODGBOT == 'true'
+        id: generate_token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.ODG_BOT_APP_ID }}
+          private-key: ${{ secrets.ODG_BOT_PRIVATE_KEY }}
+          owner: ${{ steps.repo.outputs.owner }}
+          repositories: ${{ steps.repo.outputs.name }}
+          # Dry-runs get a read-only token so a potentially untrusted central
+          # config (pull requests) can never act with write permissions.
+          permission-checks: ${{ inputs.dryRun && 'read' || 'write' }}
+          permission-contents: ${{ inputs.dryRun && 'read' || 'write' }}
+          permission-issues: ${{ inputs.dryRun && 'read' || 'write' }}
+          permission-pull-requests: ${{ inputs.dryRun && 'read' || 'write' }}
+          permission-statuses: ${{ inputs.dryRun && 'read' || 'write' }}
+          permission-workflows: ${{ inputs.dryRun && 'read' || 'write' }}
+          permission-vulnerability-alerts: read
+
+      # Read-only whenever no App credentials are used (the GITHUB_TOKEN
+      # fallback cannot push branches or PRs cross-repository) or a dry-run
+      # was requested explicitly.
+      - name: Ensure Dry-Run without write-capable token
+        if: env.USE_ODGBOT != 'true' || inputs.dryRun
+        run: echo "RENOVATE_DRY_RUN=extract" >> "$GITHUB_ENV"
+
+      - name: Run
+        uses: renovatebot/github-action@5402b206248e5a8c8427a15102702eb9c1793efc # v46.2.4
+        with:
+          env-regex: |
+            ^(?:RENOVATE_\w+|LOG_LEVEL|GITHUB_COM_TOKEN|NODE_OPTIONS|(?:HTTPS?|NO)_PROXY|(?:https?|no)_proxy)$
+          token: ${{ steps.generate_token.outputs.token || secrets.GITHUB_TOKEN }}
+          renovate-version: '44.39.0@sha256:e331219979fc6b38fc5cf7cd5beda63d4fc19963c3ef20404a2e99c8c12118a0'
+        env:
+          RENOVATE_ONBOARDING: 'false'
+          # Platform login of the GitHub App the run authenticates as (used
+          # for PR attribution / cache filtering). Commit authorship is set by
+          # GitHub itself via platformCommit and auto-discovered by renovate —
+          # no gitAuthor is configured anywhere. Repositories authenticating
+          # with a different App point ODG_BOT_USERNAME at that App's login
+          # via the renovate environment.
+          RENOVATE_USERNAME: ${{ vars.ODG_BOT_USERNAME || 'alex-ocmbot[bot]' }}
+          RENOVATE_PLATFORM: 'github'
+          RENOVATE_PLATFORM_COMMIT: 'enabled'
+          RENOVATE_REPOSITORIES: ${{ inputs.repository }}
+          RENOVATE_REPOSITORY_CACHE: ${{ inputs.repoCache }}
+          RENOVATE_FORCE: ${{ inputs.ignoreSchedule && '{"schedule":null}' || '' }}
+          LOG_LEVEL: ${{ inputs.logLevel }}
+          RENOVATE_ALLOWED_POST_UPGRADE_COMMANDS: '["python3"]'
+
+      # Only full runs write back an up-to-date cache.
+      - name: Save renovate cache
+        if: ${{ env.USE_ODGBOT == 'true' && !inputs.dryRun && inputs.repoCache != 'disabled' }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ env.cache_dir }}
+          key: ${{ env.cache_key_prefix }}-${{ steps.repo.outputs.name }}-${{ github.run_id }}
