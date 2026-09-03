@@ -252,13 +252,11 @@ jobs:
           renovate-version: '44.39.0@sha256:e331219979fc6b38fc5cf7cd5beda63d4fc19963c3ef20404a2e99c8c12118a0'
         env:
           RENOVATE_ONBOARDING: 'false'
-          # Platform login of the GitHub App the run authenticates as (used
-          # for PR attribution / cache filtering). Commit authorship is set by
-          # GitHub itself via platformCommit and auto-discovered by renovate —
-          # no gitAuthor is configured anywhere. Repositories authenticating
-          # with a different App point ODG_BOT_USERNAME at that App's login
-          # via the renovate environment.
-          RENOVATE_USERNAME: ${{ vars.ODG_BOT_USERNAME || 'alex-ocmbot[bot]' }}
+          # Commit authorship is set by GitHub itself via platformCommit (no
+          # gitAuthor configured anywhere). RENOVATE_USERNAME is deliberately
+          # unset: renovate auto-discovers the identity from the token
+          # (/user), which is correct for whichever App a run authenticates
+          # as — a static value could only ever match one App's login.
           RENOVATE_PLATFORM: 'github'
           RENOVATE_PLATFORM_COMMIT: 'enabled'
           RENOVATE_REPOSITORIES: ${{ inputs.repository }}

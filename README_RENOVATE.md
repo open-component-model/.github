@@ -38,7 +38,11 @@ workflows are versioned and released, and how consumers pin them.
 ## Onboarding a repository
 
 1. Give the repository its own `renovate.json[5]` (extend presets / rules there;
-   the central config applies additionally).
+   the central config applies additionally). Watch out for non-mergeable array
+   options: a repository-level `gitIgnoredAuthors` *replaces* the central
+   allowlist (the App identities whose branch commits are accepted as renovate's
+   own across sweeper/caller runs), so repeat the central entries if you add
+   your own.
 2. Add its `owner/name` to `.github/renovate-repositories.json` — the nightly
    sweep picks it up from the next run on.
 3. For full (write) runs, install the `ODG_BOT` GitHub App on the repository with
