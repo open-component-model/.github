@@ -9,3 +9,7 @@ repository:
     - odg
     - open-delivery-gear
     - toolkit
+
+teams:
+- name: Maintainers
+  permission: pull

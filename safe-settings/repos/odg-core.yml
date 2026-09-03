@@ -9,3 +9,7 @@ repository:
     - open-delivery-gear
     - python
     - toolkit
+
+teams:
+- name: Maintainers
+  permission: pull

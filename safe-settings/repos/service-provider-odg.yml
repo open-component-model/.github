@@ -4,3 +4,7 @@ repository:
     - ocm
     - odg
     - open-delivery-gear
+
+teams:
+- name: Maintainers
+  permission: pull
