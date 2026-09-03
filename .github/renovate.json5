@@ -21,13 +21,13 @@
   // still need. Keep the list tight: noreply author emails are spoofable.
   // Derive an email: curl -s https://api.github.com/users/odgbot%5Bbot%5D | grep '"id"' -> <id>+<slug>[bot]@users.noreply.github.com
   gitIgnoredAuthors: [
-    // odgbot - production central sweeper (https://github.com/apps/odgbot)
-    '319464553+odgbot[bot]@users.noreply.github.com',
-    // alex-ocmbot - fork end-to-end testing
-    '317879433+alex-ocmbot[bot]@users.noreply.github.com',
-    // ocmbot - will be used later again when set up here
     // (bare email only: renovate compares gitIgnoredAuthors against %ae/%ce
     // author/committer emails, never against 'Name <email>')
+    // odgbot - production central sweeper for ODG (https://github.com/apps/odgbot)
+    '319464553+odgbot[bot]@users.noreply.github.com',
+    // alex-ocmbot - fork end-to-end testing (please leave it for now)
+    '317879433+alex-ocmbot[bot]@users.noreply.github.com',
+    // ocmbot - will be used later again when we expand beyond ODG
     '125909804+ocmbot[bot]@users.noreply.github.com',
   ],
   // Add org-wide defaults here, e.g.:
