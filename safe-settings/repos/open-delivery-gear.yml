@@ -1,0 +1,10 @@
+repository:
+  homepage: https://open-component-model.github.io/open-delivery-gear/
+  gitignore_template: Python
+  topics:
+    - compliance
+    - delivery
+    - ocm
+    - odg
+    - open-delivery-gear
+    - toolkit

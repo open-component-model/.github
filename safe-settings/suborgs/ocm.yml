@@ -11,11 +11,16 @@ suborgrepos:
   - ocm-project
   - ocm-setup-action
   - ocm-spec
+  - odg-core
+  - odg-observability
+  - odg-ui
   - open-component-model
+  - open-delivery-gear
   - pkg
   - podinfo
   - repository-template
   - service-model
+  - service-provider-odg
   - signing-server
 
 # This are the settings that will be applied to the repositories listed above.
@@ -55,7 +60,7 @@ repository:
   # Desired language or platform [.gitignore template](https://github.com/github/gitignore)
   # to apply. Use the name of the template without the extension.
   # For example, "Haskell".
-  gitignore_template: go
+  gitignore_template: Go
 
   # Choose an [open source license template](https://choosealicense.com/)
   # that best suits your needs, and then use the

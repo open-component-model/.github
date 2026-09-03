@@ -1,0 +1,11 @@
+repository:
+  homepage: https://open-component-model.github.io/open-delivery-gear/
+  gitignore_template: Node
+  topics:
+    - compliance
+    - delivery
+    - javascript
+    - ocm
+    - odg
+    - open-delivery-gear
+    - toolkit
