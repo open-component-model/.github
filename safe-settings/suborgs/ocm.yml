@@ -122,21 +122,12 @@ labels:
 - name: area/ipcei
   color: 0052cc
   description: Important Project of Common European Interest
-- name: area/performance
-  color: 0052cc
-  description: Performance related (across all domains)
 - name: area/quality
   color: 0052cc
   description: Output qualification (tests, checks, scans, automation in general, etc.) related
 - name: area/security
   color: 0052cc
   description: Security relevant
-- name: area/network
-  color: 0052cc
-  description: Network related
-- name: area/testing
-  color: 0052cc
-  description: Testing related
 ## The different components of the project
 - name: component/ocm-core
   color: 25399e
@@ -153,6 +144,9 @@ labels:
 - name: component/github-actions
   color: 25399e
   description: Changes on GitHub Actions or within `.github/` directory
+- name: component/odg
+  color: 25399e
+  description: Open Delivery Gear component
 ## The different kinds of issues and pull requests - will be used for release notes grouping
 - name: kind/bugfix
   color: B60205
@@ -169,6 +163,9 @@ labels:
 - name: kind/dependency
   color: c7def8
   description: dependency update, etc.
+- name: kind/roadmap
+  color: c7def8
+  description: Epics and initiatives on the roadmap
 - name: kind/skip-release-notes
   color: c7def8
   description: Pull request will not appear in release notes
@@ -225,9 +222,6 @@ labels:
 - name: do-not-merge
   color: B60205
   description: Do not merge this PR yet!
-- name: hint/Fingerspitzengefühl
-  color: FF00FF
-  description: Needs a little bit of "Fingerspitzengefühl" - aka. be careful when implementing
 
 # Teams
 # See https://docs.github.com/en/rest/teams/teams?apiVersion=2022-11-28#create-a-team for available options
