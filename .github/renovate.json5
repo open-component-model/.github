@@ -25,8 +25,6 @@
     // author/committer emails, never against 'Name <email>')
     // odgbot - production central sweeper for ODG (https://github.com/apps/odgbot)
     '319464553+odgbot[bot]@users.noreply.github.com',
-    // alex-ocmbot - fork end-to-end testing (please leave it for now)
-    '317879433+alex-ocmbot[bot]@users.noreply.github.com',
     // ocmbot - will be used later again when we expand beyond ODG
     '125909804+ocmbot[bot]@users.noreply.github.com',
   ],
