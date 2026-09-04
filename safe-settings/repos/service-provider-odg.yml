@@ -10,7 +10,3 @@ teams:
   permission: admin
 - name: ODG Collaborators
   permission: push
-- name: TSC
-  permission: pull
-- name: Maintainers
-  permission: pull
