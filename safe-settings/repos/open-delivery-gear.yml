@@ -8,8 +8,11 @@ repository:
     - open-delivery-gear
     - toolkit
 
+  squash_merge_commit_message: COMMIT_MESSAGES
+  squash_merge_commit_title: COMMIT_OR_PR_TITLE
+
 teams:
-- name: ODG Maintainers
+- name: odg-maintainers
   permission: admin
-- name: ODG Collaborators
+- name: odg-collaborators
   permission: push
