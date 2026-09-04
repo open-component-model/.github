@@ -6,5 +6,11 @@ repository:
     - open-delivery-gear
 
 teams:
+- name: ODG Maintainers
+  permission: admin
+- name: ODG Collaborators
+  permission: push
+- name: TSC
+  permission: pull
 - name: Maintainers
   permission: pull

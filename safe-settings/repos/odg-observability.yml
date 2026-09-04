@@ -10,5 +10,9 @@ repository:
     - toolkit
 
 teams:
+- name: ODG Maintainers
+  permission: admin
+- name: TSC
+  permission: pull
 - name: Maintainers
   permission: pull
