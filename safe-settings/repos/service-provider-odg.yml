@@ -1,0 +1,12 @@
+repository:
+  homepage: https://open-component-model.github.io/open-delivery-gear/
+  topics:
+    - ocm
+    - odg
+    - open-delivery-gear
+
+teams:
+- name: ODG Maintainers
+  permission: admin
+- name: ODG Collaborators
+  permission: push
