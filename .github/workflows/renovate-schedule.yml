@@ -1,0 +1,150 @@
+name: Renovate Schedule
+# Central renovate sweeper: runs the reusable renovate workflow
+# (.github/workflows/renovate.yml) for every repository in the saved list
+# (.github/renovate-repositories.json) in parallel (matrix fan-out).
+#
+# Onboarding a repository:
+# - add its owner/name to .github/renovate-repositories.json (onboarding PRs
+#   are disabled, so the repository needs its own renovate config),
+# - for full runs the GitHub App (vars.ODG_BOT_APP_ID / secrets.ODG_BOT_PRIVATE_KEY)
+#   must be installed on it with the permissions requested in renovate.yml,
+# - optionally keep a thin caller workflow in the repository for push-triggered
+#   rebase/automerge runs.
+#
+# Forks: set the repository variable RENOVATE_CENTRAL_OWNER to your user/org
+# name to enable scheduled full sweeps (default: open-component-model).
+# Without App credentials all runs degrade to read-only dry-runs.
+on:
+  schedule:
+    - cron: '0 1 * * *' # Daily at 01:00 UTC (02:00/03:00 CET/CEST)
+  workflow_dispatch:
+    inputs:
+      repositories:
+        description: 'Ad-hoc comma-separated owner/name list; empty = use saved list'
+        required: false
+        type: string
+        default: ''
+      repoCache:
+        description: 'Repository cache: enabled (use + update), disabled (skip), reset (discard old, start fresh)'
+        type: choice
+        default: enabled
+        options: [ enabled, disabled, reset ]
+      ignoreSchedule:
+        description: 'Ignore renovate schedule settings'
+        type: boolean
+        default: false
+      logLevel:
+        description: 'Log level'
+        type: choice
+        default: info
+        options: [ info, debug ]
+      useOdgbotCredentials:
+        description: 'Use GitHub App credentials if configured (else: GITHUB_TOKEN)'
+        type: boolean
+        default: true
+  # PRs validate the list, the central config and dry-run the first list entry
+  # as a canary (same-repository PRs only; forks lack the App credentials).
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/renovate.json5
+      - .github/renovate-repositories.json
+      - .github/workflows/renovate.yml
+      - .github/workflows/renovate-schedule.yml
+
+concurrency:
+  group: renovate-schedule-${{ github.repository }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  REPO_LIST_FILE: .github/renovate-repositories.json
+
+jobs:
+  # Resolves the target list (dispatch override or saved file) and validates
+  # its structure. Also validates the saved list on pull requests.
+  load:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      repos: ${{ steps.list.outputs.repos }}
+      canary: ${{ steps.list.outputs.canary }}
+      count: ${{ steps.list.outputs.count }}
+    steps:
+      - name: Checkout repository list
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: ${{ env.REPO_LIST_FILE }}
+          persist-credentials: false
+
+      - name: Resolve and validate repository list
+        id: list
+        env:
+          DISPATCH_REPOS: ${{ inputs.repositories || '' }}
+        run: |
+          set -euo pipefail
+          if [ -n "$DISPATCH_REPOS" ]; then
+            printf '%s' "$DISPATCH_REPOS" | jq -Rs 'split(",") | map(gsub("^\\s+|\\s+$"; "")) | map(select(length > 0))' > repos.json
+          else
+            jq '.' "$REPO_LIST_FILE" > repos.json
+          fi
+          jq -e 'type == "array" and all(.[]; (type == "string") and test("^[^/[:space:]]+/[^/[:space:]]+$"))' repos.json
+          {
+            echo "repos=$(jq -c '.' repos.json)"
+            echo "canary=$(jq -c 'if length == 0 then [] else [.[0]] end' repos.json)"
+            echo "count=$(jq 'length' repos.json)"
+          } >> "$GITHUB_OUTPUT"
+
+  # Full sweep over the whole list (schedule / dispatch). Per-target
+  # concurrency groups and caches live in the called workflow.
+  sweep:
+    needs: load
+    if: >-
+      github.event_name != 'pull_request' &&
+      fromJSON(needs.load.outputs.count) > 0 &&
+      (github.event_name != 'schedule' || github.repository_owner == (vars.RENOVATE_CENTRAL_OWNER || 'open-component-model'))
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        repository: ${{ fromJSON(needs.load.outputs.repos) }}
+    uses: ./.github/workflows/renovate.yml
+    secrets: inherit
+    with:
+      repository: ${{ matrix.repository }}
+      # Central config is taken from this repository/ref so feature branches
+      # test their own config and list end-to-end.
+      centralConfig: ${{ github.repository }}@${{ github.ref_name }}
+      repoCache: ${{ inputs.repoCache || 'enabled' }}
+      ignoreSchedule: ${{ github.event_name == 'workflow_dispatch' && inputs.ignoreSchedule }}
+      logLevel: ${{ inputs.logLevel || 'info' }}
+      useOdgbotCredentials: ${{ github.event_name != 'workflow_dispatch' || inputs.useOdgbotCredentials }}
+      dryRun: false
+
+  # Pull-request validation on top of load + the config validation inside the
+  # reusable workflow: a read-only canary run (extract only, read-only token
+  # permissions) against the first list entry. Skipped for fork PRs, which do
+  # not have the App credentials — load + validation still cover them.
+  canary:
+    needs: load
+    if: >-
+      github.event_name == 'pull_request' &&
+      fromJSON(needs.load.outputs.count) > 0 &&
+      vars.ODG_BOT_APP_ID != ''
+    strategy:
+      fail-fast: false
+      matrix:
+        repository: ${{ fromJSON(needs.load.outputs.canary) }}
+    uses: ./.github/workflows/renovate.yml
+    secrets: inherit
+    with:
+      repository: ${{ matrix.repository }}
+      centralConfig: ${{ github.repository }}@${{ github.ref_name }}
+      repoCache: disabled
+      ignoreSchedule: true
+      logLevel: info
+      useOdgbotCredentials: true
+      dryRun: true
