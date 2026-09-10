@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/open-component-model/.github/compare/v1.0.0...v1.0.1) (2026-09-10)
+
+
+### Bug Fixes
+
+* always run release please workflow ([511f574](https://github.com/open-component-model/.github/commit/511f5748ead582bfd893fe808cda94cccb3736bf))
+
 ## 1.0.0 (2026-09-04)
 
 
