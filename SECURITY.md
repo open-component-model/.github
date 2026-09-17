@@ -79,7 +79,7 @@ CRA stewardship: This project is supported under the Linux Foundation CRA stewar
 
 **CRA Steward Contact**: `steward@linuxfoundation.org`
 
-**Commercial Intent**: Open Component Model software is intended for commercial use and is widely adopted in commercial contexts.
+**Commercial Intent**: Open Component Model software is designed and intended for use in commercial contexts.
 
 For more information, see the [NeoNephos Security Guidelines §11](https://github.com/neonephos/guidelines-development/blob/main/security-guidelines/security-guidelines.md#11-eu-cyber-resilience-act-cra-compliance).
 
