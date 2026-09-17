@@ -85,10 +85,7 @@ For more information, see the [NeoNephos Security Guidelines §11](https://githu
 
 ## Past Security Advisories
 
-This SECURITY.md is the organization-wide default for all repositories in the `open-component-model`
-GitHub organization. GitHub does not provide a public organization-wide list of security advisories
-(the organization-level view is restricted to organization owners and security managers), so a single
-hard-coded link cannot work here. Published advisories are listed per repository in the repository's
+Published advisories are listed per repository in the repository's
 **Security → Advisories** tab. Direct link (replace `<repository>` with the repository in question,
 e.g. `open-component-model`):
 
