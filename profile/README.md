@@ -8,8 +8,8 @@ OCM is an open standard and toolkit for packaging, signing, transporting, and de
 
 - [OCM Specification](https://github.com/open-component-model/ocm-spec) - The `ocm-spec` repository contains the OCM specification, which provides a formal description of OCM and its format to describe software artifacts and a storage layer to persist those and make them accessible from remote.
 - [Open Component Model](https://github.com/open-component-model/open-component-model) - The main repository containing the OCM library, CLI, and Kubernetes toolkit. This is where active development happens.
-- [OCM CLI](https://github.com/open-component-model/open-component-model/tree/main/cli) - The `ocm` command line interface makes it easy to create, sign, verify, and transfer component versions as well as embed them in build processes.
-- [OCM K8s Toolkit](https://github.com/open-component-model/open-component-model/tree/main/kubernetes/controller) - A Kubernetes operator to deploy OCM resources into a Kubernetes cluster.
+- [OCM CLI](https://github.com/open-component-model/open-component-model/tree/main/bindings/go/cli) - The `ocm` command line interface makes it easy to create, sign, verify, and transfer component versions as well as embed them in build processes.
+- [OCM K8s Toolkit](https://github.com/open-component-model/open-component-model/tree/main/bindings/go/kubernetes/controller) - A Kubernetes operator to deploy OCM resources into a Kubernetes cluster.
 - [Open Delivery Gear](https://github.com/open-component-model/open-delivery-gear) - An extensible and cloud-native compliance delivery engine.
 
 ## Getting Started
