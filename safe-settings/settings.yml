@@ -10,6 +10,53 @@
 # Rulesets
 # See https://docs.github.com/en/rest/orgs/rules?apiVersion=2022-11-28#create-an-organization-repository-rulesetfor available options
 rulesets:
+  - name: OCM Organization Ruleset Signing
+    # The target of the ruleset. Can be one of:
+    # - branch
+    # - tag
+    target: branch
+    # The enforcement level of the ruleset. `evaluate` allows admins to test
+    # rules before enforcing them.
+    # - disabled
+    # - active
+    # - evaluate
+    enforcement: active
+
+    # The actors that can bypass the rules in this ruleset
+    bypass_actors: []
+
+    conditions:
+      # Parameters for a repository ruleset ref name condition
+      ref_name:
+        # Array of ref names or patterns to include. One of these
+        # patterns must match for the condition to pass. Also accepts
+        # `~DEFAULT_BRANCH` to include the default branch or `~ALL` to
+        # include all branches.
+        include: ["~ALL"]
+        exclude: []
+
+      # This condition only exists at the org level (remove for suborg and repo level rulesets)
+      repository_name:
+        # Array of repository names or patterns to include.
+        # One of these patterns must match for the condition
+        # to pass. Also accepts `~ALL` to include all
+        # repositories.
+        include: ["~ALL"]
+        # Array of repository names or patterns to exclude. The
+        # condition will not pass if any of these patterns
+        # match.
+        exclude: []
+        # Whether renaming of target repositories is
+        # prevented.
+        # Note: `protected: true` cannot be combined with `include: ["~ALL"]`
+        # since GitHub introduced server-side validation (~Aug 20, 2026).
+        # See: https://docs.github.com/rest/orgs/rules#update-an-organization-repository-ruleset
+        protected: false
+
+    # Refer to https://docs.github.com/en/rest/orgs/rules#create-an-organization-repository-ruleset
+    rules:
+      - type: required_signatures
+
   - name: OCM Organization Ruleset
     # The target of the ruleset. Can be one of:
     # - branch
@@ -84,7 +131,6 @@ rulesets:
       - type: creation
       - type: deletion
       - type: required_linear_history
-      - type: required_signatures
       - type: non_fast_forward
       - type: pull_request
         parameters:
