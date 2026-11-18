@@ -57,6 +57,59 @@ rulesets:
     rules:
       - type: required_signatures
 
+  - name: OCM Organization Ruleset Immutable Tags
+    # The target of the ruleset. Can be one of:
+    # - branch
+    # - tag
+    target: tag
+    # The enforcement level of the ruleset. `evaluate` allows admins to test
+    # rules before enforcing them.
+    # - disabled
+    # - active
+    # - evaluate
+    enforcement: active
+
+    # The actors that can bypass the rules in this ruleset.
+    # Kept empty: tags must be immutable for everyone, including admins and bots.
+    bypass_actors: []
+
+    conditions:
+      # Parameters for a repository ruleset ref name condition
+      ref_name:
+        # Match all tags. One of these patterns must match for the
+        # condition to pass.
+        include: ["~ALL"]
+        exclude: []
+
+      # This condition only exists at the org level (remove for suborg and repo level rulesets)
+      repository_name:
+        # Array of repository names or patterns to include.
+        # One of these patterns must match for the condition
+        # to pass. Also accepts `~ALL` to include all
+        # repositories.
+        include: ["~ALL"]
+        # Array of repository names or patterns to exclude. The
+        # condition will not pass if any of these patterns
+        # match.
+        exclude: []
+        # Whether renaming of target repositories is
+        # prevented.
+        # Note: `protected: true` cannot be combined with `include: ["~ALL"]`
+        # since GitHub introduced server-side validation (~Aug 20, 2026).
+        # See: https://docs.github.com/rest/orgs/rules#update-an-organization-repository-ruleset
+        protected: false
+
+    # Refer to https://docs.github.com/en/rest/orgs/rules#create-an-organization-repository-ruleset
+    # Together these make tags immutable: they may be created but never
+    # moved (updated) or deleted once pushed.
+    rules:
+      # Only allow tags to be created, not updated to point at a new commit.
+      - type: update
+      # Prevent tags from being deleted.
+      - type: deletion
+      # Prevent tags from being force-pushed to a different commit.
+      - type: non_fast_forward
+
   - name: OCM Organization Ruleset
     # The target of the ruleset. Can be one of:
     # - branch
