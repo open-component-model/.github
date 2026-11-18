@@ -73,26 +73,17 @@ rulesets:
     bypass_actors:
       - actor_id: 1
         actor_type: OrganizationAdmin
-        bypass_mode: always
+        bypass_mode: pull_request
       - actor_id: 11025979
         actor_type: Team
-        bypass_mode: always
+        bypass_mode: pull_request
       - actor_id: 7033703
         actor_type: Team
         bypass_mode: pull_request
       - actor_id: 12680595 # ODG Maintainers team (https://github.com/orgs/open-component-model/teams/odg-maintainers)
         actor_type: Team
         bypass_mode: pull_request
-      - actor_id: 2740 # renovate
-        actor_type: Integration
-        bypass_mode: always
-      - actor_id: 29110 # dependabot
-        actor_type: Integration
-        bypass_mode: always
       - actor_id: 295948 # ocm-bot
-        actor_type: Integration
-        bypass_mode: always
-      - actor_id: 2439345 # odg ci (https://github.com/apps/federated-github-access)
         actor_type: Integration
         bypass_mode: always
       - actor_id: 4671931 # odgbot (https://github.com/apps/odgbot)
@@ -118,7 +109,7 @@ rulesets:
         # Array of repository names or patterns to exclude. The
         # condition will not pass if any of these patterns
         # match.
-        exclude: ['.github', 'jenkins-library', 'cobra', 'ocm-controller']
+        exclude: []
         # Whether renaming of target repositories is
         # prevented.
         # Note: `protected: true` cannot be combined with `include: ["~ALL"]`
