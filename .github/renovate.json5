@@ -38,13 +38,5 @@
     },
   ],
   customManagers: [
-    {
-      // Track the Renovate version used in the reusable workflow
-      customType: 'regex',
-      managerFilePatterns: ['.github/workflows/renovate.yml'],
-      matchStrings: ["renovate-version:\\s*'(?<currentValue>[^'@]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?'"],
-      depNameTemplate: 'ghcr.io/renovatebot/renovate',
-      datasourceTemplate: 'docker',
-    },
   ],
 }
