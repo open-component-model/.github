@@ -83,6 +83,23 @@ CRA stewardship: This project is supported under the Linux Foundation CRA stewar
 
 For more information, see the [NeoNephos Security Guidelines §11](https://github.com/neonephos/guidelines-development/blob/main/security-guidelines/security-guidelines.md#11-eu-cyber-resilience-act-cra-compliance).
 
+## Infrastructure Escalation Path
+
+Open Component Model is hosted in the [NeoNephos GitHub Enterprise](https://github.com/enterprises/neonephos).
+Infrastructure issues (e.g. organization access, membership, or enterprise-level settings) are escalated to the
+[NeoNephos GitHub Account Administration team](https://github.com/neonephos/account-administration), in line with the
+[NeoNephos Project Guidelines §15.4](https://github.com/neonephos/guidelines-development/blob/main/project-guidelines/project-guidelines.md#154-escalation-and-support).
+
+1. Report the issue to the Technical Steering Committee at
+   [open-component-model-tsc@lists.neonephos.org](mailto:open-component-model-tsc@lists.neonephos.org).
+2. If it cannot be resolved at organization level, the TSC escalates it by opening an issue in
+   [neonephos/account-administration](https://github.com/neonephos/account-administration/issues).
+
+- **Non-critical issues**: Foundation contacts respond within **48 hours**.
+- **Critical outages**: Foundation contacts respond within **24 hours**.
+
+*These are **SHOULD**-level targets as defined by the NeoNephos Project Guidelines. **Do not include vulnerability details in a public issue**; use the reporting channels above instead.*
+
 ## Past Security Advisories
 
 Published advisories are listed per repository in the repository's
